@@ -24,9 +24,21 @@ Tabelas:
 - mdl_iassign_submission
 - mdl_iassign_submission_comment
 
+## Tabela do DUmp do leonidas:
 
-SELECT count(s.id) FROM s_iassign_statement AS stat, s_iassign AS i, s_iassign_submission  AS s WHERE stat.iassignid = i.id AND i.course = 484
-AND s.iassign_statementid = stat.id;
+- iassign_allsubmissions
+- iassign
+- iassign_ilm
+- iassign_statement
+- iassign_submission
+
+
+    SELECT count(s.id) FROM mdl_iassign_statement AS stat, 
+                            mdl_iassign AS i, 
+                            mdl_iassign_submission AS s 
+    WHERE stat.iassignid = i.id 
+        AND i.course = 484 
+        AND s.iassign_statementid = stat.id;
 
 484 - curso licenciatura
 489 - curso atual

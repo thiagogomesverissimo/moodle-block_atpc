@@ -1,8 +1,17 @@
+<div>
+  <p>Quantidade de tarefas moodle com Itarefas: {{tasks}}</p>
+</div>
+
+<div>
+  <p>Quantidade de exerícicios do Itarefas: {{statements}} </p>
+</div>
+
+
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">ids tentativas</th>
-      <th scope="col"># de tentativas</th>
+      <th scope="col">statement id</th>
+      <th scope="col">Média de tentativas por usuário</th>
       <th scope="col">tempo entre tentativas </th>
       <th scope="col">diff code entre tentativas</th>
       <th scope="col">distância da primeira submissão</th>
