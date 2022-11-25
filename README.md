@@ -6,7 +6,7 @@ prof. Leonidas de Oliveira Brandao
 Ambiente dev:
 
     cd blocks
-    git clone 
+    git clone git@github.com:thiagogomesverissimo/tasksummary.git
 
 Será que métodos de Aprendizagem de Máquina são canhões para matar mosca?
 
