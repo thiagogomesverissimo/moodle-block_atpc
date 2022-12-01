@@ -24,13 +24,7 @@ Tabelas:
 - mdl_iassign_submission
 - mdl_iassign_submission_comment
 
-## Tabela do DUmp do leonidas:
 
-- iassign_allsubmissions
-- iassign
-- iassign_ilm
-- iassign_statement
-- iassign_submission
 
 
     SELECT count(s.id) FROM mdl_iassign_statement AS stat, 
@@ -42,3 +36,32 @@ Tabelas:
 
 484 - curso licenciatura
 489 - curso atual
+
+## Tabela do DUmp do leonidas:
+
+- s_iassign_allsubmissions
+- s_iassign
+- s_iassign_ilm
+- s_iassign_statement
+- s_iassign_submission
+
+Importando tabelas do saw:
+
+    mariadb -uadmin moodle -padmin < ~/Downloads/bd_moodle_saw2021_iassign.sql
+    drop table mdl_iassign_allsubmissions;
+    drop table mdl_iassign;
+    drop table mdl_iassign_ilm;
+    drop table mdl_iassign_statement;
+    drop table mdl_iassign_submission;
+
+    rename table s_iassign_allsubmissions to mdl_iassign_allsubmissions; 
+    rename table s_iassign to mdl_iassign;
+    rename table s_iassign_ilm to mdl_iassign_ilm;
+    rename table s_iassign_statement to mdl_iassign_statement;
+    rename table s_iassign_submission to mdl_iassign_submission;
+
+
+select iassign_statementid,count(*) from mdl_iassign_allsubmissions group by iassign_statementid
+
+select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
+

@@ -6,39 +6,27 @@
   <p>Quantidade de exerícicios do Itarefas: {{statements}} </p>
 </div>
 
+<div>
+  <p>Quantidade de exerícicios do Itarefas com submissões: {{statements_with_submissions_total}} </p>
+</div>
+
 
 <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">statement id</th>
-      <th scope="col">Média de tentativas por usuário</th>
-      <th scope="col">tempo entre tentativas </th>
+      <th scope="col">Quantidade de submissões</th>
+      <th scope="col">Quantidade de usuários</th>
+      <th scope="col">Média de submissões por usuários</th>
+      <th scope="col">Mediana</th>
+      <th scope="col">Máximo de submissões por um único usuário</th>
+      <th scope="col">tempo entre tentativas</th>
       <th scope="col">diff code entre tentativas</th>
       <th scope="col">distância da primeira submissão</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">60</th>
-      <td>7</td>
-      <td>7</td>
-      <td>sim</td>
-      <td>não</td>
-    </tr>
-    <tr>
-      <th scope="row">60</th>
-      <td>7</td>
-      <td>2</td>
-      <td>não</td>
-      <td>sim</td>
-    </tr>
-    <tr>
-      <th scope="row">60</th>
-      <td>7</td>
-      <td>4</td>
-      <td>sim</td>
-      <td>não</td>
-    </tr>
+    {{trs}}
   </tbody>
 </table>
 

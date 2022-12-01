@@ -35,26 +35,41 @@ class Query
         return $result->total;
     }
 
-    public static function allsubmissions(){
+
+    public static function totalSubmissionsFromStatment($statementid){
         global $DB, $CFG, $OUTPUT;
 
-        $query = "SELECT id,iassign_statementid, userid, count(*) FROM {iassign_allsubmissions} group by iassign_statementid, userid";
+        $query = "SELECT userid,
+                         COUNT(*) AS total 
+                         FROM {iassign_allsubmissions}
+                         WHERE iassign_statementid = {$statementid} 
+                         GROUP BY userid";
+        $results = json_encode($DB->get_records_sql($query));
+        return json_decode($results, true);
+        # echo "<pre>";
+        # var_dump(array_sum(array_column($results,'total'))); die();
+    }
+
+    public static function statementsWithSubmissions(){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT iassign_statementid AS id,
+                  COUNT(*) as total 
+                  FROM {iassign_allsubmissions} 
+                  GROUP by iassign_statementid
+                  ORDER BY total DESC";
+        
         $results = $DB->get_records_sql($query);
-
-
-        // montando uma estrutura assim:
-        /*
-        [
-            'iassign_statementid' => 22,
-            'media' => 22,
-        ]
-        */
-
-        /*foreach($results as $result){
-            echo "<pre>";
-            //var_dump($result); die();
-        }*/
-
         return $results;
     }
+
+    // https://www.folkstalk.com/2022/09/php-median-with-code-examples.html
+    public static function median($a) { 
+        sort($a);
+        $c = count($a);
+        $m = floor(($c-1)/2);
+        return ($c % 2) ? $a[$m] : (($a[$m]+$a[$m+1])/2);
+    }
+    
+    
 }
