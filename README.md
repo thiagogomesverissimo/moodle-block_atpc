@@ -34,8 +34,8 @@ Tabelas:
         AND i.course = 484 
         AND s.iassign_statementid = stat.id;
 
-484 - curso licenciatura
-489 - curso atual
+484 - curso licenciatura - 2021
+489 - curso atual - 2021
 
 ## Tabela do DUmp do leonidas:
 
@@ -65,3 +65,38 @@ select iassign_statementid,count(*) from mdl_iassign_allsubmissions group by ias
 
 select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
 
+select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
+
+
+select userid,iassign_statementid from mdl_iassign_allsubmissions where iassign_statementid=5822 and userid=9795;
+
+Medidas de alunos:
+
+- Olhar histórico do alunos.
+- classificar alunos muito acima da média com algum perfil "insistente" - considerear alguns desvião padrão da média
+- classificar alunos que submetem muito rápido tempo - impaciente (pouca alteração)
+- intervalo maior com notas melhores;
+- frequência com que esses perfis (impaciente e insistente) ocorrem
+
+
+Medidas de enunciado -  análise de qualidade do exercício:
+- exercícios com problemas de interpretação
+Gráfico de tempo versus variação de código, colorir com a nota -  análise de enunciado
+fazer o mesmo gráfico fixando o aluno com vários ecercícios 
+
+- média de envios acima -> possivel problema no enunciado
+
+
+Considerar as submissões "úteis", ou seja, que tiveram alteração na resposta
+
+Comportamento dos alunos
+número de variações úteis - ou seja, mudou a resposta
+intervalo 
+
+usar como referência - o Lucas fez uma iterativo e está no github
+I know what you coded last summer
+https://sol.sbc.org.br/index.php/sbie/article/view/18117/17951
+
+Subir essa aplicação, que tb analisa os dados:
+
+http://200.144.254.107/git/LInE/ivprog_log_analysis
