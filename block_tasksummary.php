@@ -7,6 +7,8 @@ class block_tasksummary extends block_base {
 
     public function get_content() {
         global $USER;
+
+        $this->title = 'Mineração dados Itarefas';
         
         $this->content =  new stdClass;
 
