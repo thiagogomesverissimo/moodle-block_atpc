@@ -60,43 +60,113 @@ Importando tabelas do saw:
     rename table s_iassign_statement to mdl_iassign_statement;
     rename table s_iassign_submission to mdl_iassign_submission;
 
+    ou apenas:
 
-select iassign_statementid,count(*) from mdl_iassign_allsubmissions group by iassign_statementid
+    drop table s_iassign_allsubmissions;
+    drop table s_iassign;
+    drop table s_iassign_ilm;
+    drop table s_iassign_statement;
+    drop table s_iassign_submission;
 
-select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
+Medidas de enunciado -  análise de qualidade do exercício:
 
-select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
+- exercícios com problemas de interpretação
+- Gráfico de tempo versus variação de código, colorir com a nota
+- média de envios acima -> possivel problema no enunciado
 
-
-select userid,iassign_statementid from mdl_iassign_allsubmissions where iassign_statementid=5822 and userid=9795;
-
-Medidas de alunos:
+Medidas de Comportamento dos alunos:
 
 - Olhar histórico do alunos.
-- classificar alunos muito acima da média com algum perfil "insistente" - considerear alguns desvião padrão da média
+- classificar alunos muito acima da média com algum perfil "insistente" - considerar alguns desvião padrão da média
 - classificar alunos que submetem muito rápido tempo - impaciente (pouca alteração)
 - intervalo maior com notas melhores;
 - frequência com que esses perfis (impaciente e insistente) ocorrem
+- Gráfico de tempo versus variação de código fixando o aluno com vários exercícios 
+
+Considerações:
+
+- Considerar as submissões "úteis", ou seja, que tiveram alteração na resposta
+- nesse primeiro momento vamos considerar alteração no código, apenas o tamanho: 
+
+    select CHAR_LENGTH(answer) from s_iassign_allsubmissions;
 
 
-Medidas de enunciado -  análise de qualidade do exercício:
-- exercícios com problemas de interpretação
-Gráfico de tempo versus variação de código, colorir com a nota -  análise de enunciado
-fazer o mesmo gráfico fixando o aluno com vários ecercícios 
+Usar como referência - o Lucas fez uma iterativo e está no github
 
-- média de envios acima -> possivel problema no enunciado
+- I know what you coded last summer - https://sol.sbc.org.br/index.php/sbie/article/view/18117/17951
+- Subir essa aplicação, que tb analisa os dados do ivprog - http://200.144.254.107/git/LInE/ivprog_log_analysis
+
+Agumas queries:
+
+    select iassign_statementid,count(*) from mdl_iassign_allsubmissions group by iassign_statementid
+
+    select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
+
+    select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
+
+    select userid,iassign_statementid from mdl_iassign_allsubmissions where iassign_statementid=5822 and userid=9795;
+
+SELECT a.iassign_statementid, 
+       a.userid, 
+       a.timecreated, 
+       a.grade, 
+       CHAR_LENGTH(a.answer) as answersize1,
+
+       b.iassign_statementid, 
+       b.userid, 
+       b.timecreated, 
+       b.grade, 
+       CHAR_LENGTH(b.answer) as answersize2
+
+FROM s_iassign_allsubmissions AS a
+LEFT JOIN s_iassign_submission AS b
+    ON ( a.userid = b. userid AND
+         a.iassign_statementid = b.iassign_statementid );
 
 
-Considerar as submissões "úteis", ou seja, que tiveram alteração na resposta
+Fixando um iassign_statementid:
 
-Comportamento dos alunos
-número de variações úteis - ou seja, mudou a resposta
-intervalo 
+    SELECT a.iassign_statementid, 
+        a.userid, 
+        a.timecreated, 
+        a.grade, 
+        CHAR_LENGTH(a.answer) as answersize1,
 
-usar como referência - o Lucas fez uma iterativo e está no github
-I know what you coded last summer
-https://sol.sbc.org.br/index.php/sbie/article/view/18117/17951
+        b.iassign_statementid, 
+        b.userid, 
+        b.timecreated,
+        b.timemodified, 
+        b.grade, 
+        CHAR_LENGTH(b.answer) as answersize2
 
-Subir essa aplicação, que tb analisa os dados:
+    FROM s_iassign_allsubmissions AS a
+    LEFT JOIN s_iassign_submission AS b
+        ON ( a.userid = b. userid AND
+            a.iassign_statementid = b.iassign_statementid )
+    WHERE a.iassign_statementid = 5739;
 
-http://200.144.254.107/git/LInE/ivprog_log_analysis
+
+Fixando um usuário:
+
+    SELECT a.iassign_statementid, 
+        a.userid, 
+        a.timecreated, 
+        a.grade, 
+        CHAR_LENGTH(a.answer) as answersize1,
+
+        b.iassign_statementid, 
+        b.userid, 
+        b.timecreated,
+        b.timemodified, 
+        b.grade, 
+        CHAR_LENGTH(b.answer) as answersize2
+
+    FROM s_iassign_allsubmissions AS a
+    LEFT JOIN s_iassign_submission AS b
+        ON ( a.userid = b. userid AND
+            a.iassign_statementid = b.iassign_statementid )
+    WHERE a.iassign_statementid = 5739;
+
+
+
+          

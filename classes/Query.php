@@ -35,8 +35,7 @@ class Query
         return $result->total;
     }
 
-
-    public static function totalSubmissionsFromStatment($statementid){
+    public static function totalSubmissionsFromStatement($statementid){
         global $DB, $CFG, $OUTPUT;
 
         $query = "SELECT userid,
@@ -46,9 +45,31 @@ class Query
                          GROUP BY userid";
         $results = json_encode($DB->get_records_sql($query));
         return json_decode($results, true);
-        # echo "<pre>";
-        # var_dump(array_sum(array_column($results,'total'))); die();
     }
+
+    public static function allSubmissionsFromUserAndStatement($statementid, $userid){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT *
+                         FROM {iassign_allsubmissions}
+                         WHERE iassign_statementid = {$statementid}
+                         AND userid  = {$userid}";
+        $results = json_encode($DB->get_records_sql($query));
+        return json_decode($results, true);
+    }
+
+    public static function usersFromStatement($statementid){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT UNIQUE(userid)
+                         FROM {iassign_allsubmissions}
+                         WHERE iassign_statementid = {$statementid}
+                         GROUP BY userid";
+        $results = json_encode($DB->get_records_sql($query));
+        $array = json_decode($results, true);
+        return array_column($array,'userid');
+    }
+
 
     public static function statementsWithSubmissions(){
         global $DB, $CFG, $OUTPUT;

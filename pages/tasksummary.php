@@ -31,7 +31,12 @@ echo $OUTPUT->header();
 
   $trs = '';
   foreach($statements_with_submissions as $statement){
-    $submissions = Query::totalSubmissionsFromStatment($statement->id);
+
+    $url = new moodle_url('/blocks/tasksummary/pages/statement.php', [
+        'statementid' => $statement->id,
+    ]);
+
+    $submissions = Query::totalSubmissionsFromStatement($statement->id);
 
     // usuário com maior número de submissões
     $max = max(array_column($submissions, 'total'));
@@ -40,7 +45,7 @@ echo $OUTPUT->header();
     $n = count($submissions);
     $media = number_format((float) $statement->total/$n, 2, ',', '');
     $trs .= "<tr>
-    <td>{$statement->id}</td>
+    <td><a href='{$url}'>{$statement->id}</a></td>
     <td>{$statement->total}</td>
     <td>{$n}</td>
     <td>{$media}</td>
