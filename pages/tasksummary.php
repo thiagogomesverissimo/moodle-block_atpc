@@ -44,14 +44,15 @@ echo $OUTPUT->header();
 
     $n = count($submissions);
     $media = number_format((float) $statement->total/$n, 2, ',', '');
-    $trs .= "<tr>
-    <td><a href='{$url}'>{$statement->id}</a></td>
-    <td>{$statement->total}</td>
-    <td>{$n}</td>
-    <td>{$media}</td>
-    <td>{$mediana}</td>
-    <td>{$max}</td>
-    <td></td>
+    $trs .= "
+    <tr>
+      <td><a href='{$url}'>{$statement->id}</a></td>
+      <td>{$statement->total}</td>
+      <td>{$n}</td>
+      <td>{$media}</td>
+      <td>{$mediana}</td>
+      <td>{$max}</td>
+      <td></td>
     </tr>
     ";
   }
