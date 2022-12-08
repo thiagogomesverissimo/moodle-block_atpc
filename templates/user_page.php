@@ -4,7 +4,8 @@
   <thead>
     <tr>
       <th scope="col">submissions</th>
-      <th scope="col">userid</th>
+      <th scope="col">statement id</th>
+      <th scope="col">enunciado</th>
       <th scope="col">timecreated</th>
       <th scope="col">timecreated_next</th>
       <th scope="col">grade</th>
@@ -47,7 +48,7 @@
     var layout = {
       showlegend: true,
       title: {
-        text:'Avaliando qualidade da tarefa: <br>{{enunciado}}',
+        text:'Comportamento do aluno: {{userid}}',
         font: {
           family: 'Courier New, monospace',
           size: 24

@@ -70,6 +70,17 @@ class Query
         return array_column($array,'userid');
     }
 
+    public static function statementsFromUser($userid){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT UNIQUE(iassign_statementid)
+                         FROM {iassign_allsubmissions}
+                         WHERE userid = {$userid}
+                         GROUP BY iassign_statementid";
+        $results = json_encode($DB->get_records_sql($query));
+        $array = json_decode($results, true);
+        return array_column($array,'iassign_statementid');
+    }
 
     public static function statementsWithSubmissions(){
         global $DB, $CFG, $OUTPUT;
