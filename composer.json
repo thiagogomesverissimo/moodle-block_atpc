@@ -1,0 +1,14 @@
+{
+    "name": "moodle/tasksummary",
+    "description": "plugin moodle for task analysis",
+    "type": "moodle-plugin",
+    "authors": [
+        {
+            "name": "Thiago Gomes Verissimo",
+            "email": "verissimotgv@gmail.com"
+        }
+    ],
+    "require": {
+        "nesbot/carbon": "^2.64"
+    }
+}
