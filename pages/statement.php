@@ -45,42 +45,43 @@ foreach($users as $userid){
     }
 }
 
+
+$content = file_get_contents("../templates/statement_page.php");
+
+$trs = '';
+$array_difftime = [];
+$array_diffanswer = [];
+$array_grade = [];
+
+foreach($table as $row){
+    $difftime = $row['timecreated']->diffInSeconds($row['timecreated_next']);
+    $diffanswer =  $row['answer_next']-$row['answer'];
+
+    $array_difftime[] = $difftime;
+    $array_diffanswer[] = $diffanswer;
+    $array_grade[] = $row['answer_next'];
+
+    $trs .= "
+        <tr>
+            <td>{$row['submissions']}</td>
+            <td>{$row['userid']}</td>
+            <td>{$row['timecreated']}</td>
+            <td>{$row['timecreated_next']}</td>
+            <td>{$row['grade']}</td>
+            <td>{$row['grade_next']}</td>
+            <td>{$row['answer']}</td>
+            <td>{$row['answer_next']}</td>
+            <td>{$difftime}</td>
+            <td>{$diffanswer}</td>
+        </tr>
+    ";
+}
+
+$content = str_replace('{{trs}}',$trs, $content);
+$content = str_replace('{{difftime}}',implode(',',$array_difftime), $content);
+$content = str_replace('{{diffanswer}}',implode(',',$array_diffanswer), $content);
+$content = str_replace('{{grade_next}}',implode(',',$array_grade), $content);
+
 echo $OUTPUT->header();
-
-    $content = file_get_contents("../templates/statement_page.php");
-
-    $trs = '';
-    $array_difftime = [];
-    $array_diffanswer = [];
-    $array_grade = [];
-
-    foreach($table as $row){
-        $difftime = $row['timecreated']->diffInSeconds($row['timecreated_next']);
-        $diffanswer =  $row['answer_next']-$row['answer'];
-
-        $array_difftime[] = $difftime;
-        $array_diffanswer[] = $diffanswer;
-        $array_grade[] = $row['answer_next'];
-
-        $trs .= "
-            <tr>
-                <td>{$row['submissions']}</td>
-                <td>{$row['userid']}</td>
-                <td>{$row['timecreated']}</td>
-                <td>{$row['timecreated_next']}</td>
-                <td>{$row['grade']}</td>
-                <td>{$row['grade_next']}</td>
-                <td>{$row['answer']}</td>
-                <td>{$row['answer_next']}</td>
-                <td>{$difftime}</td>
-                <td>{$diffanswer}</td>
-            </tr>
-        ";
-    }
-    $content = str_replace('{{trs}}',$trs, $content);
-    $content .= str_replace('{{difftime}}',implode(',',$array_difftime), $content);
-    $content .= str_replace('{{diffanswer}}',implode(',',$array_diffanswer), $content);
-    $content .= str_replace('{{grade_next}}',implode(',',$array_grade), $content);
-
-    echo $content;
+echo $content;
 echo $OUTPUT->footer();

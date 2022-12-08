@@ -25,18 +25,18 @@
     <li>Na tabela acima somente estudantes que submeteram mais que uma vez a tarefa aparecem</li>
 </ul>
 
-<script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.16.4.min.js"></script>
 
 <script>
 
     var trace1 = {
 
         x: [{{difftime}}], //[1, 2, 3, 4],
-        y: [{{diffanswer}}] //[10, 11, 12, 13],
+        y: [{{diffanswer}}], //[10, 11, 12, 13],
         mode: 'markers',
-        marker: {
+        /*marker: {
             size: [{{grade_next}}] //[40, 60, 80, 100]
-        }
+        }*/
     };
 
     var data = [trace1];
