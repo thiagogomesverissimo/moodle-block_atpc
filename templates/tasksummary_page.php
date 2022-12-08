@@ -20,9 +20,6 @@
       <th scope="col">Média de submissões por usuários</th>
       <th scope="col">Mediana</th>
       <th scope="col">Máximo de submissões por um único usuário</th>
-      <th scope="col">tempo entre tentativas</th>
-      <th scope="col">diff code entre tentativas</th>
-      <th scope="col">distância da primeira submissão</th>
     </tr>
   </thead>
   <tbody>
