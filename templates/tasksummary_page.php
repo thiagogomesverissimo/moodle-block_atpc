@@ -15,6 +15,7 @@
   <thead>
     <tr>
       <th scope="col">statement id</th>
+      <th scope="col">Enunciado</th>
       <th scope="col">Quantidade de submissões</th>
       <th scope="col">Quantidade de usuários</th>
       <th scope="col">Média de submissões por usuários</th>

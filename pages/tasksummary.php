@@ -2,7 +2,9 @@
 
 require_once('../../../config.php');
 require_once('../classes/Query.php');
+require_once('../classes/Utils.php');
 
+use block_tasksummary\Utils;
 use block_tasksummary\Query;
 
 $url = new moodle_url("/blocks/tasksummary/pages/tasksummary.php");
@@ -40,13 +42,16 @@ echo $OUTPUT->header();
 
     // usuário com maior número de submissões
     $max = max(array_column($submissions, 'total'));
-    $mediana = Query::median(array_column($submissions, 'total'));
+    $mediana = Utils::median(array_column($submissions, 'total'));
+
+    $enunciado = Query::getStatementName($statement->id);
 
     $n = count($submissions);
     $media = number_format((float) $statement->total/$n, 2, ',', '');
     $trs .= "
     <tr>
       <td><a href='{$url}'>{$statement->id}</a></td>
+      <td>{$enunciado}</td>
       <td>{$statement->total}</td>
       <td>{$n}</td>
       <td>{$media}</td>

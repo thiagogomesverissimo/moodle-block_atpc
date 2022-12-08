@@ -84,13 +84,13 @@ class Query
         return $results;
     }
 
-    // https://www.folkstalk.com/2022/09/php-median-with-code-examples.html
-    public static function median($a) { 
-        sort($a);
-        $c = count($a);
-        $m = floor(($c-1)/2);
-        return ($c % 2) ? $a[$m] : (($a[$m]+$a[$m+1])/2);
+    public static function getStatementName($id){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT name
+                    FROM {iassign_statement}
+                    WHERE id = {$id}";
+        $result = $DB->get_record_sql($query);
+        return $result->name;
     }
-    
-    
 }

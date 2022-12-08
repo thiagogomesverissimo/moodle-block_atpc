@@ -12,15 +12,9 @@ use Carbon\Carbon;
 
 require_login();
 
-# não é necessário?
-#$url = new moodle_url("/blocks/tasksummary/pages/statement.php");
-#$PAGE->set_url($url);
-#$PAGE->set_context(context_system::instance());
-#$PAGE->set_pagelayout('admin');
+$userid = required_param('userid', PARAM_INT);
 
-$statementid = required_param('statementid', PARAM_INT);
-
-$page_title = 'Statement '. $statementid;
+$page_title = 'Usuário '. $userid;
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
@@ -62,14 +56,10 @@ foreach($table as $row){
     $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
     $array_grade[] = $row['grade_next'];
 
-    $url = new moodle_url('/blocks/tasksummary/pages/user.php', [
-        'userid' => $row['userid'],
-    ]);
-
     $trs .= "
         <tr>
             <td>{$row['submissions']}</td>
-            <td><a href='{$url}'>{$row['userid']}</a></td>
+            <td>{$row['userid']}</td>
             <td>{$row['timecreated']}</td>
             <td>{$row['timecreated_next']}</td>
             <td>{$row['grade']}</td>
