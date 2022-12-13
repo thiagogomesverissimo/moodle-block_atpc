@@ -12,11 +12,9 @@ use Carbon\Carbon;
 
 require_login();
 
-# não é necessário?
-#$url = new moodle_url("/blocks/tasksummary/pages/statement.php");
-#$PAGE->set_url($url);
-#$PAGE->set_context(context_system::instance());
-#$PAGE->set_pagelayout('admin');
+$url = new moodle_url("/blocks/tasksummary/pages/statement.php");
+$PAGE->set_url($url);
+$PAGE->set_context(context_system::instance());
 
 $statementid = required_param('statementid', PARAM_INT);
 
@@ -26,15 +24,14 @@ $PAGE->set_heading($page_title);
 
 $users = Query::usersFromStatement($statementid);
 
-$table = [];
+$lines = [];
 foreach($users as $userid){
     $submissions = Query::allSubmissionsFromUserAndStatement($statementid,$userid);
-    #var_dump(count($submissions)); die();
     foreach($submissions as $submission){
         $next = next($submissions);
         if(empty($next)) continue;
 
-        $table[] = [
+        $lines[] = [
             'submissions'      => $submission['id'] . '-' . $next['id'],
             'userid'           => $userid,
             'timecreated'      => Carbon::createFromTimestamp($submission['timecreated']),
@@ -47,14 +44,26 @@ foreach($users as $userid){
     }
 }
 
-$content = file_get_contents("../templates/statement_page.php");
+$table = new html_table();
 
-$trs = '';
+$table->head = [ 
+  'submissions',
+  'userid',
+  'timecreated',
+  'timecreated_next',
+  'grade',
+  'grade_next',
+  'answer',
+  'answer_next',
+  'diff sec',
+  'diff answer'
+];
+
 $array_difftime = [];
 $array_diffanswer = [];
 $array_grade = [];
 
-foreach($table as $row){
+foreach($lines as $row){
     $difftime = $row['timecreated']->diffInSeconds($row['timecreated_next']);
     $diffanswer =  $row['answer_next']-$row['answer'];
 
@@ -66,32 +75,28 @@ foreach($table as $row){
         'userid' => $row['userid'],
     ]);
 
-    $trs .= "
-        <tr>
-            <td>{$row['submissions']}</td>
-            <td><a href='{$url}'>{$row['userid']}</a></td>
-            <td>{$row['timecreated']}</td>
-            <td>{$row['timecreated_next']}</td>
-            <td>{$row['grade']}</td>
-            <td>{$row['grade_next']}</td>
-            <td>{$row['answer']}</td>
-            <td>{$row['answer_next']}</td>
-            <td>{$difftime}</td>
-            <td>{$diffanswer}</td>
-        </tr>
-    ";
+    $table->data[] = [
+        $row['submissions'],
+        "<a href='{$url}'>{$row['userid']}</a>",
+        $row['timecreated'],
+        $row['timecreated_next'],
+        $row['grade'],
+        $row['grade_next'],
+        $row['answer'],
+        $row['answer_next'],
+        $difftime,
+        $diffanswer
+      ];
 }
 
-$enunciado = Query::getStatementName($statementid);
-
-$array_grade2 = array_fill(0,count($array_grade),100);
-
-$content = str_replace('{{trs}}',$trs, $content);
-$content = str_replace('{{difftime}}',implode(',',$array_difftime), $content);
-$content = str_replace('{{diffanswer}}',implode(',',$array_diffanswer), $content);
-$content = str_replace('{{grade_next}}',implode(',',$array_grade), $content);
-$content = str_replace('{{enunciado}}',$enunciado, $content);
+$data = [
+    'difftime'   => implode(',',$array_difftime),
+    'diffanswer' => implode(',',$array_diffanswer),
+    'grade_next' => implode(',',$array_grade),
+    'enunciado'  => Query::getStatementName($statementid),
+    'table'      => html_writer::table($table)
+  ];
 
 echo $OUTPUT->header();
-echo $content;
+echo $OUTPUT->render_from_template('block_tasksummary/statement', $data);
 echo $OUTPUT->footer();
