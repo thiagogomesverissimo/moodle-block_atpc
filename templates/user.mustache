@@ -38,7 +38,11 @@
         marker: {
             size: 8,
             color: [{{grade_next}}],
-            colorscale: 'Blues'
+            colorscale: [
+              [0.000, "rgb(255, 0, 0)"],
+              [0.5, "rgb(0,0,255)"],
+              [1.000, "rgb(0,0,255)"]
+            ],
         }
     };
 

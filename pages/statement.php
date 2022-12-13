@@ -80,14 +80,15 @@ foreach($lines as $row){
         "<a href='{$url}'>{$row['userid']}</a>",
         $row['timecreated'],
         $row['timecreated_next'],
-        $row['grade'],
-        $row['grade_next'],
+        number_format($row['grade'], 2, ',', ''),
+        number_format($row['grade_next'], 2, ',', ''),
         $row['answer'],
         $row['answer_next'],
         $difftime,
         $diffanswer
       ];
 }
+$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
 $data = [
     'difftime'   => implode(',',$array_difftime),

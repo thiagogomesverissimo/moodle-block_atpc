@@ -113,7 +113,7 @@ plugin moodle para baixar todos questinãrios de um curso
 
 arrumar sequencia dos statements
 
-deixar genérico para qualquer outro plugin, exmeplo vpl
+deixar genérico para qualquer outro plugin, exemplo vpl
 
 barbara - 9749 - aluno boa
 jailson - 9769 - good

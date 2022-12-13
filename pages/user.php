@@ -85,14 +85,15 @@ foreach($lines as $row){
         $row['enunciado'],
         $row['timecreated'],
         $row['timecreated_next'],
-        $row['grade'],
-        $row['grade_next'],
+        number_format($row['grade'], 2, ',', ''),
+        number_format($row['grade_next'], 2, ',', ''),
         $row['answer'],
         $row['answer_next'],
         $difftime,
         $diffanswer
       ];
 }
+$table->align = ['left','left','right','right','right','right','right','right','right','right','right'];
 
 
 $data = [
