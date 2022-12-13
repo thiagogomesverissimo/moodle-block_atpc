@@ -68,10 +68,15 @@ Importando tabelas do saw:
     drop table s_iassign_statement;
     drop table s_iassign_submission;
 
-Medidas de enunciado -  análise de qualidade do exercício:
+## Análise da qualidade do enunciado:
 
-- exercícios com problemas de interpretação
-- Gráfico de tempo versus variação de código, colorir com a nota
+### exercícios com problemas de interpretação
+
+Algumas envidências:
+
+- Média e mediana de submissões por usuários distantes
+
+### Gráfico de tempo versus variação de código, colorir com a nota
 - média de envios acima -> possivel problema no enunciado
 
 Medidas de Comportamento dos alunos:
@@ -90,82 +95,36 @@ Considerações:
 
     select CHAR_LENGTH(answer) from s_iassign_allsubmissions;
 
-
 Usar como referência - o Lucas fez uma iterativo e está no github
 
 - I know what you coded last summer - https://sol.sbc.org.br/index.php/sbie/article/view/18117/17951
 - Subir essa aplicação, que tb analisa os dados do ivprog - http://200.144.254.107/git/LInE/ivprog_log_analysis
 
-Agumas queries:
 
-    select iassign_statementid,count(*) from mdl_iassign_allsubmissions group by iassign_statementid
+arrumar submissões únicas para serem consideradas na análise
 
-    select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
-
-    select userid,iassign_statementid,count(*) from mdl_iassign_allsubmissions where iassign_statementid=5822 group by userid;
-
-    select userid,iassign_statementid from mdl_iassign_allsubmissions where iassign_statementid=5822 and userid=9795;
-
-SELECT a.iassign_statementid, 
-       a.userid, 
-       a.timecreated, 
-       a.grade, 
-       CHAR_LENGTH(a.answer) as answersize1,
-
-       b.iassign_statementid, 
-       b.userid, 
-       b.timecreated, 
-       b.grade, 
-       CHAR_LENGTH(b.answer) as answersize2
-
-FROM s_iassign_allsubmissions AS a
-LEFT JOIN s_iassign_submission AS b
-    ON ( a.userid = b. userid AND
-         a.iassign_statementid = b.iassign_statementid );
+Alinhar a direita na tabela
+$table->align = array('left','right','right'); // (n. de colunas)
 
 
-Fixando um iassign_statementid:
+grade com casa decimal
 
-    SELECT a.iassign_statementid, 
-        a.userid, 
-        a.timecreated, 
-        a.grade, 
-        CHAR_LENGTH(a.answer) as answersize1,
+plugin moodle para baixar todos questinãrios de um curso
 
-        b.iassign_statementid, 
-        b.userid, 
-        b.timecreated,
-        b.timemodified, 
-        b.grade, 
-        CHAR_LENGTH(b.answer) as answersize2
+arrumar sequencia dos statements
 
-    FROM s_iassign_allsubmissions AS a
-    LEFT JOIN s_iassign_submission AS b
-        ON ( a.userid = b. userid AND
-            a.iassign_statementid = b.iassign_statementid )
-    WHERE a.iassign_statementid = 5739;
+deixar genérico para qualquer outro plugin, exmeplo vpl
+
+barbara - 9749 - aluno boa
+jailson - 9769 - good
+jose ailton - 9772 - good
+pedro custodio - 9789 - good
+
+larissa - 9778 - bad
+demerval - 9757 - bad
 
 
-Fixando um usuário:
-
-    SELECT a.iassign_statementid, 
-        a.userid, 
-        a.timecreated, 
-        a.grade, 
-        CHAR_LENGTH(a.answer) as answersize1,
-
-        b.iassign_statementid, 
-        b.userid, 
-        b.timecreated,
-        b.timemodified, 
-        b.grade, 
-        CHAR_LENGTH(b.answer) as answersize2
-
-    FROM s_iassign_allsubmissions AS a
-    LEFT JOIN s_iassign_submission AS b
-        ON ( a.userid = b. userid AND
-            a.iassign_statementid = b.iassign_statementid )
-    WHERE a.iassign_statementid = 5739;
+módulo da diferença 
 
 
 

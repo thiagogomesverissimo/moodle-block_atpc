@@ -84,6 +84,8 @@ foreach($table as $row){
 
 $enunciado = Query::getStatementName($statementid);
 
+$array_grade2 = array_fill(0,count($array_grade),100);
+
 $content = str_replace('{{trs}}',$trs, $content);
 $content = str_replace('{{difftime}}',implode(',',$array_difftime), $content);
 $content = str_replace('{{diffanswer}}',implode(',',$array_diffanswer), $content);

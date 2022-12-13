@@ -37,9 +37,8 @@
         mode: 'markers',
         marker: {
             size: 8,
-            //size: [{{grade_next}}] //[40, 60, 80, 100]
             color: [{{grade_next}}],
-            colorscale: 'Greens'
+            colorscale: 'Blues'
         }
     };
 

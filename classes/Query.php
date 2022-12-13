@@ -102,6 +102,6 @@ class Query
                     FROM {iassign_statement}
                     WHERE id = {$id}";
         $result = $DB->get_record_sql($query);
-        return $result->name;
+        if($result) return $result->name;
     }
 }
