@@ -2,7 +2,7 @@
 
 class block_tasksummary extends block_base {
     public function init() {
-        //$this->title = get_string('block_title', 'Bloco do task summary');
+        $this->title = 'ss';
     }
 
     public function get_content() {
