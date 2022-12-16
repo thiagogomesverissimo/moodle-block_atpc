@@ -30,9 +30,9 @@
     var data = [pontos];
 
     var layout = {
-      showlegend: true,
+      showlegend: false,
       title: {
-        text:'Avaliando qualidade da tarefa: <br>{{enunciado}}',
+        text:'Avaliando qualidade da tarefa: <br>{{{enunciado}}}',
         font: {
           family: 'Courier New, monospace',
           size: 24
@@ -61,11 +61,52 @@
             color: '#7f7f7f'
           }
         }
-      }
+      },
+
+      shapes: [
+        {
+          type: 'line',
+          xref: 'x',
+          yref: 'y',
+          x0: 0,
+          y0: {{intercept}},
+          x1: {{max}},
+          y1: {{intercept}}+({{coefficient}}*{{max}}),
+          line: {
+            color: 'rgb(55, 128, 191)',
+            width: 3
+          }
+        },
+      ],
+
+      annotations: [
+        {
+          x: {{max}},
+          y: {{intercept}}+({{coefficient}}*{{max}}),
+          xref: 'x',
+          yref: 'y',
+          text: 'Coeficiente: ' + {{coefficient}},
+          showarrow: true,
+          arrowhead: 7,
+          ax: 40,
+          ay: 20
+        },
+
+        {
+          x: 0,
+          y: {{intercept}},
+          xref: 'x',
+          yref: 'y',
+          text: 'Intercepto: ' + {{intercept}},
+          showarrow: true,
+          arrowhead: 7,
+          ax: -60,
+          ay: 0
+        },
+      ]
     };
 
     Grafico = document.getElementById('grafico');
     Plotly.newPlot(Grafico, data, layout);
-
 
 </script>

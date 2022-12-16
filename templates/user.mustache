@@ -1,25 +1,6 @@
 <div id="grafico" style=""></div>
 
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th scope="col">submissions</th>
-      <th scope="col">statement id</th>
-      <th scope="col">enunciado</th>
-      <th scope="col">timecreated</th>
-      <th scope="col">timecreated_next</th>
-      <th scope="col">grade</th>
-      <th scope="col">grade_next</th>
-      <th scope="col">answer</th>
-      <th scope="col">answer_next</th>
-      <th scope="col">diff sec</th>
-      <th scope="col">diff answer</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{trs}}
-  </tbody>
-</table>
+{{{table}}}
 
 <b>Observações:</b>
 <ul>
@@ -49,7 +30,7 @@
     var data = [pontos];
 
     var layout = {
-      showlegend: true,
+      showlegend: false,
       title: {
         text:'Comportamento do aluno: {{userid}}',
         font: {
@@ -80,7 +61,48 @@
             color: '#7f7f7f'
           }
         }
-      }
+      },
+
+      shapes: [
+        {
+          type: 'line',
+          xref: 'x',
+          yref: 'y',
+          x0: 0,
+          y0: {{intercept}},
+          x1: {{max}},
+          y1: {{intercept}}+({{coefficient}}*{{max}}),
+          line: {
+            color: 'rgb(55, 128, 191)',
+            width: 3
+          }
+        },
+      ],
+      annotations: [
+        {
+          x: {{max}},
+          y: {{intercept}}+({{coefficient}}*{{max}}),
+          xref: 'x',
+          yref: 'y',
+          text: 'Coeficiente: ' + {{coefficient}},
+          showarrow: true,
+          arrowhead: 7,
+          ax: 40,
+          ay: 20
+        },
+
+        {
+          x: 0,
+          y: {{intercept}},
+          xref: 'x',
+          yref: 'y',
+          text: 'Intercepto: ' + {{intercept}},
+          showarrow: true,
+          arrowhead: 7,
+          ax: -60,
+          ay: 0
+        },
+      ]
     };
 
     Grafico = document.getElementById('grafico');

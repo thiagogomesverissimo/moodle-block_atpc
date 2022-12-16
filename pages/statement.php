@@ -6,6 +6,7 @@ require_once('../../../config.php');
 require_once('../classes/Query.php');
 require_once('../classes/Utils.php');
 
+use Phpml\Regression\LeastSquares;
 use block_tasksummary\Query;
 use block_tasksummary\Utils;
 use Carbon\Carbon;
@@ -90,12 +91,24 @@ foreach($lines as $row){
 }
 $table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
+// Regressão linear
+$x = array_map(function ($x) { return [$x]; }, $array_difftime); $array_difftime;
+$y = $array_diffanswer;
+
+$regression = new LeastSquares();
+$regression->train($x, $y);
+$intercept = $regression->getIntercept();
+$coefficient = $regression->getCoefficients()[0];
+
 $data = [
-    'difftime'   => implode(',',$array_difftime),
-    'diffanswer' => implode(',',$array_diffanswer),
-    'grade_next' => implode(',',$array_grade),
-    'enunciado'  => Query::getStatementName($statementid),
-    'table'      => html_writer::table($table)
+    'difftime'    => implode(',',$array_difftime),
+    'diffanswer'  => implode(',',$array_diffanswer),
+    'grade_next'  => implode(',',$array_grade),
+    'enunciado'   => Query::getStatementName($statementid),
+    'table'       => html_writer::table($table),
+    'intercept'   => number_format($intercept,3),
+    'coefficient' => number_format($coefficient,3),
+    'max'         => max($array_difftime)
   ];
 
 echo $OUTPUT->header();

@@ -9,6 +9,7 @@
         }
     ],
     "require": {
-        "nesbot/carbon": "^2.64"
+        "nesbot/carbon": "^2.64",
+        "php-ai/php-ml": "^0.9.0"
     }
 }

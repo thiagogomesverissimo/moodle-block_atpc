@@ -2,6 +2,7 @@
 
 require_once($CFG->dirroot . '../vendor/autoload.php');
 
+use Phpml\Regression\LeastSquares;
 require_once('../../../config.php');
 require_once('../classes/Query.php');
 require_once('../classes/Utils.php');
@@ -95,15 +96,26 @@ foreach($lines as $row){
 }
 $table->align = ['left','left','right','right','right','right','right','right','right','right','right'];
 
+// Regressão linear
+$x = array_map(function ($x) { return [$x]; }, $array_difftime); $array_difftime;
+$y = $array_diffanswer;
+
+$regression = new LeastSquares();
+$regression->train($x, $y);
+$intercept = $regression->getIntercept();
+$coefficient = $regression->getCoefficients()[0];
 
 $data = [
     'difftime'   => implode(',',$array_difftime),
     'diffanswer' => implode(',',$array_diffanswer),
     'grade_next' => implode(',',$array_grade),
     'userid'     => $userid,
-    'table'      => html_writer::table($table)
+    'table'      => html_writer::table($table),
+    'intercept'   => number_format($intercept,3),
+    'coefficient' => number_format($coefficient,3),
+    'max'         => max($array_difftime)
   ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_tasksummary/statement', $data);
+echo $OUTPUT->render_from_template('block_tasksummary/user', $data);
 echo $OUTPUT->footer();
