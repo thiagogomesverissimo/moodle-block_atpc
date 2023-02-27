@@ -4,10 +4,10 @@ require_once('../../../config.php');
 require_once('../classes/Query.php');
 require_once('../classes/Utils.php');
 
-use block_tasksummary\Utils;
-use block_tasksummary\Query;
+use block_atpc\Utils;
+use block_atpc\Query;
 
-$url = new moodle_url("/blocks/tasksummary/pages/tasksummary.php");
+$url = new moodle_url("/blocks/atpc/pages/atpc.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
@@ -38,7 +38,7 @@ $table->head = [
 
 foreach($statements_with_submissions as $statement){
 
-  $url = new moodle_url('/blocks/tasksummary/pages/statement.php', [
+  $url = new moodle_url('/blocks/atpc/pages/statement.php', [
       'statementid' => $statement->id,
   ]);
 
@@ -73,5 +73,5 @@ $data = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_tasksummary/tasksummary', $data);
+echo $OUTPUT->render_from_template('block_atpc/atpc', $data);
 echo $OUTPUT->footer();

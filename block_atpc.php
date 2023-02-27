@@ -1,6 +1,6 @@
 <?php
 
-class block_tasksummary extends block_base {
+class block_atpc extends block_base {
     public function init() {
         $this->title = 'ss';
     }
@@ -14,7 +14,7 @@ class block_tasksummary extends block_base {
 
         $this->content->text = 'Exemplo Bloco Educação e Dados';
 
-        $url = new moodle_url('/blocks/tasksummary/pages/tasksummary.php', [
+        $url = new moodle_url('/blocks/atpc/pages/atpc.php', [
             #'var1' => $var1,
         ]);
 

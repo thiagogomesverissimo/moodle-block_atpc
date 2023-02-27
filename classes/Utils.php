@@ -1,6 +1,6 @@
 <?php
 
-namespace block_tasksummary;
+namespace block_atpc;
 
 defined('MOODLE_INTERNAL') || die();
 

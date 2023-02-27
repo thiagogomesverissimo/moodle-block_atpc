@@ -1,6 +1,6 @@
 {
-    "name": "moodle/tasksummary",
-    "description": "plugin moodle for task analysis",
+    "name": "moodle/atpc",
+    "description": "Analytics Tutor for Programming Courses",
     "type": "moodle-plugin",
     "authors": [
         {

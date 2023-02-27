@@ -7,13 +7,13 @@ require_once('../classes/Query.php');
 require_once('../classes/Utils.php');
 
 use Phpml\Regression\LeastSquares;
-use block_tasksummary\Query;
-use block_tasksummary\Utils;
+use block_atpc\Query;
+use block_atpc\Utils;
 use Carbon\Carbon;
 
 require_login();
 
-$url = new moodle_url("/blocks/tasksummary/pages/statement.php");
+$url = new moodle_url("/blocks/atpc/pages/statement.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 
@@ -72,7 +72,7 @@ foreach($lines as $row){
     $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
     $array_grade[] = $row['grade_next'];
 
-    $url = new moodle_url('/blocks/tasksummary/pages/user.php', [
+    $url = new moodle_url('/blocks/atpc/pages/user.php', [
         'userid' => $row['userid'],
     ]);
 
@@ -112,5 +112,5 @@ $data = [
   ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_tasksummary/statement', $data);
+echo $OUTPUT->render_from_template('block_atpc/statement', $data);
 echo $OUTPUT->footer();
