@@ -7,13 +7,13 @@ defined('MOODLE_INTERNAL') || die();
 
 class Table
 {
-    public static function statements(){
-        $statements_with_submissions = Iassign::statementsWithSubmissions();
+    public static function statements($course = 0){
 
         $table = new \html_table();
 
         $table->head = [ 
             'statement id',
+            'course id',
             'Enunciado',
             'Quantidade de submissões',
             'Quantidade de usuários',
@@ -22,26 +22,25 @@ class Table
             'Máximo de submissões por um único usuário'
         ];
 
-        foreach($statements_with_submissions as $statement){
+        foreach(Iassign::statementsWithSubmissions($course) as $statement){
 
             $url = new \moodle_url('/blocks/atpc/pages/statement.php', [
                 'statementid' => $statement->id,
             ]);
           
-            $submissions = Iassign::totalSubmissionsFromStatement($statement->id);
+            $submissions = Iassign::numberOfSubmissionsFromStatement($statement->id);
           
             // usuário com maior número de submissões
             $max = max(array_column($submissions, 'total'));
             $mediana = Utils::median(array_column($submissions, 'total'));
-          
-            $enunciado = Iassign::getStatementName($statement->id);
           
             $n = count($submissions);
             $media = number_format((float) $statement->total/$n, 2, ',', '');
           
             $table->data[] = [
               "<a href='{$url}'>{$statement->id}</a>",
-              $enunciado,
+              Iassign::getStatementCourse($statement->id),
+              Iassign::getStatementName($statement->id),
               $statement->total,
               $n,
               $media,

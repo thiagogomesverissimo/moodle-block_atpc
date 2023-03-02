@@ -10,23 +10,37 @@ require_once($CFG->dirroot.'/course/lib.php');
 class Iassign
 {
 
-    public static function tasks(){
+    public static function numberOfTasks($course = 0){
         global $DB, $CFG, $OUTPUT;
 
         $query = "SELECT count(*) AS total FROM {iassign}";
+
+        // filter by course
+        if($course != 0) {
+            $query .= " WHERE course = {$course}";
+        }
+
         $result = $DB->get_record_sql($query);
         return $result->total;
     }
 
-    public static function statements(){
+    public static function numberOfStatements($course = 0){
         global $DB, $CFG, $OUTPUT;
 
         $query = "SELECT count(*) AS total FROM {iassign_statement}";
+
+        // filter by course
+        if($course != 0) {
+            $query .= " INNER JOIN {iassign} ON {iassign_statement}.iassignid = {iassign}.id
+                        WHERE {iassign}.course = {$course}";
+        }
+
         $result = $DB->get_record_sql($query);
         return $result->total;
     }
 
-    public static function totalSubmissionsFromStatement($statementid){
+    // era totalSubmissionsFromStatement
+    public static function numberOfSubmissionsFromStatement($statementid){
         global $DB, $CFG, $OUTPUT;
 
         $query = "SELECT userid,
@@ -37,6 +51,50 @@ class Iassign
         $results = json_encode($DB->get_records_sql($query));
         return json_decode($results, true);
     }
+
+    public static function statementsWithSubmissions($course = 0){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT iassign_statementid AS id,
+                  COUNT(*) as total 
+                  FROM {iassign_allsubmissions}";
+        
+        // filter by course
+        if($course != 0) {
+            $query .= " INNER JOIN {iassign_statement} ON {iassign_allsubmissions}.iassign_statementid = {iassign_statement}.id 
+                        INNER JOIN {iassign} ON {iassign_statement}.iassignid = {iassign}.id
+                        WHERE {iassign}.course = {$course}";
+        }
+
+        $query .= " GROUP by {iassign_allsubmissions}.iassign_statementid
+                    ORDER BY id ASC";
+
+        $results = $DB->get_records_sql($query);
+        return $results;
+    }
+
+    public static function getStatementName($id){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT name
+                    FROM {iassign_statement}
+                    WHERE id = {$id}";
+        $result = $DB->get_record_sql($query);
+        if($result) return $result->name;
+    }
+
+    public static function getStatementCourse($id){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT {iassign}.course
+                    FROM {iassign_statement}
+                    INNER JOIN {iassign} ON {iassign_statement}.iassignid = {iassign}.id
+                    WHERE {iassign_statement}.id = {$id}";
+        $result = $DB->get_record_sql($query);
+        if($result) return $result->course;
+    }
+
+    ######### falta conferir
 
     public static function allSubmissionsFromUserAndStatement($statementid, $userid){
         global $DB, $CFG, $OUTPUT;
@@ -73,28 +131,9 @@ class Iassign
         return array_column($array,'iassign_statementid');
     }
 
-    public static function statementsWithSubmissions(){
-        global $DB, $CFG, $OUTPUT;
 
-        $query = "SELECT iassign_statementid AS id,
-                  COUNT(*) as total 
-                  FROM {iassign_allsubmissions} 
-                  GROUP by iassign_statementid
-                  ORDER BY total DESC";
-        
-        $results = $DB->get_records_sql($query);
-        return $results;
-    }
 
-    public static function getStatementName($id){
-        global $DB, $CFG, $OUTPUT;
 
-        $query = "SELECT name
-                    FROM {iassign_statement}
-                    WHERE id = {$id}";
-        $result = $DB->get_record_sql($query);
-        if($result) return $result->name;
-    }
 
     public static function courses(){
         global $DB, $CFG, $OUTPUT;
@@ -103,6 +142,11 @@ class Iassign
 
         $results = json_encode($DB->get_records_sql($query));
         $array = json_decode($results, true);
-        return array_column($array,'course');
+        $array =  array_column($array,'course');
+
+        // in this moment keeping the course id in array key and the same in the array value
+        // in future, display courses names in the array values
+        $courses = array_combine($array, $array);
+        return $courses;
     }
 }

@@ -11,15 +11,17 @@ class AtpcForm extends \moodleform {
 
     public function definition() {
 
+        $title = 'Select a course'; // TODO: internationalization
         $courses = Iassign::courses();
+        $courses[0] = 'All Courses'; // TODO: internationalization
 
-        print_r($courses); die();
+        $select = $this->_form->addElement('select', 'course', $title, $courses);
+        $select->setSelected(0);
 
-        $title = 'Selecionar curso'; // TODO: internationalization
-
-        $this->_form->addElement('select', 'course', $title, $courses);
-        $this->_form->addElement('submit', 'button', 'Enviar');
+        $this->_form->addElement('submit', 'button', 'Send');
+        
         $this->_form->addRule('course', null, 'required');
+        
 
     }
 }

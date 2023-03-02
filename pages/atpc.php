@@ -24,19 +24,24 @@ $page_title = 'Plugin de Análise de Dados do Itarefas'; // TODO: internationali
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
-// statements data from tables
-$statements = Iassign::statements();
-$statements_with_submissions = Iassign::statementsWithSubmissions();
-
 // form 
-$form = new AtpcForm(['users', 'courses']);
+$form = new AtpcForm();
+
+// data from form
+$request = $form->get_data();
+if(!empty($request) and !is_null($request)){
+  $course = $request->course;
+} else {
+  // zero means all courses
+  $course = 0;
+}
 
 // array data sent to template
 $data = [
-  'statements'  => $statements,
-  'tasks'       => Iassign::tasks(),
-  'statements_with_submissions_total' => count($statements_with_submissions),
-  'table' => Table::statements(),
+  'number_of_statements'  => Iassign::numberOfStatements($course),
+  'number_of_tasks'       => Iassign::numberOfTasks($course),
+  'statements_with_submissions_total' => count(Iassign::statementsWithSubmissions($course)),
+  'table' => Table::statements($course),
   'form'  => $form->render()
 ];
 
