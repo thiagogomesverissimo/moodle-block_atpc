@@ -1,6 +1,7 @@
 Plugin moodle: Analytics Tutor for Programming Courses - ATPC
 
 MAC5857 - Desenvolvimento de Sistemas Web para Apoio ao Ensino/Aprendizagem
+
 prof. Leonidas de Oliveira Brandao
 
 Ambiente dev:
@@ -24,20 +25,8 @@ Tabelas:
 - mdl_iassign_submission
 - mdl_iassign_submission_comment
 
-
-
-
-    SELECT count(s.id) FROM mdl_iassign_statement AS stat, 
-                            mdl_iassign AS i, 
-                            mdl_iassign_submission AS s 
-    WHERE stat.iassignid = i.id 
-        AND i.course = 484 
-        AND s.iassign_statementid = stat.id;
-
-484 - curso licenciatura - 2021
-489 - curso atual - 2021
-
-## Tabela do DUmp do leonidas:
+## Dump do leonidas:
+As tableas do leônidas estão prefixadas com s:
 
 - s_iassign_allsubmissions
 - s_iassign
@@ -47,7 +36,7 @@ Tabelas:
 
 Importando tabelas do saw:
 
-    mariadb -uadmin moodle -padmin < ~/Downloads/bd_moodle_saw2021_iassign.sql
+    mariadb -uadmin moodle -padmin < ~/Dropbox/dumps/bd_moodle_saw2021_iassign.sql
     drop table mdl_iassign_allsubmissions;
     drop table mdl_iassign;
     drop table mdl_iassign_ilm;

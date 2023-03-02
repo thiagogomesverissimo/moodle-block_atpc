@@ -1,6 +1,6 @@
 <?php
 
-namespace block_atpc;
+namespace block_atpc\Service;
 
 defined('MOODLE_INTERNAL') || die();
 

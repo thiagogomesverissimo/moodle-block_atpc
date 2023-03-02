@@ -1,77 +1,46 @@
 <?php
 
+// default moodle head
 require_once('../../../config.php');
-require_once('../classes/Query.php');
-require_once('../classes/Utils.php');
+defined('MOODLE_INTERNAL') || die();
+require_login();
 
-use block_atpc\Utils;
-use block_atpc\Query;
+// plugin classes
+require_once('../src/Form/AtpcForm.php');
+require_once('../src/Service/Iassign.php');
+require_once('../src/Service/Utils.php');
+require_once('../src/Service/Table.php');
+use block_atpc\Form\AtpcForm;
+use block_atpc\Service\Utils;
+use block_atpc\Service\Iassign;
+use block_atpc\Service\Table;
 
+// Metadata for moodle page
 $url = new moodle_url("/blocks/atpc/pages/atpc.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-
-$page_title = 'Plugin de Análise de Dados do Itarefas';
+$page_title = 'Plugin de Análise de Dados do Itarefas'; // TODO: internationalization
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
-require_login();
+// statements data from tables
+$statements = Iassign::statements();
+$statements_with_submissions = Iassign::statementsWithSubmissions();
 
-$tasks = Query::tasks();
-$statements = Query::statements();
+// form 
+$form = new AtpcForm(['users', 'courses']);
 
-$statements_with_submissions = Query::statementsWithSubmissions();
-$statements_with_submissions_total = count($statements_with_submissions);
-
-$table = new html_table();
-
-$table->head = [ 
-  'statement id',
-  'Enunciado',
-  'Quantidade de submissões',
-  'Quantidade de usuários',
-  'Média de submissões por usuários',
-  'Mediana',
-  'Máximo de submissões por um único usuário'
-];
-
-foreach($statements_with_submissions as $statement){
-
-  $url = new moodle_url('/blocks/atpc/pages/statement.php', [
-      'statementid' => $statement->id,
-  ]);
-
-  $submissions = Query::totalSubmissionsFromStatement($statement->id);
-
-  // usuário com maior número de submissões
-  $max = max(array_column($submissions, 'total'));
-  $mediana = Utils::median(array_column($submissions, 'total'));
-
-  $enunciado = Query::getStatementName($statement->id);
-
-  $n = count($submissions);
-  $media = number_format((float) $statement->total/$n, 2, ',', '');
-
-  $table->data[] = [
-    "<a href='{$url}'>{$statement->id}</a>",
-    $enunciado,
-    $statement->total,
-    $n,
-    $media,
-    $mediana,
-    $max
-  ];
-}
-$table->align = ['left','left','right','right','right','right','right'];
-
+// array data sent to template
 $data = [
   'statements'  => $statements,
-  'tasks'       => $tasks,
-  'statements_with_submissions_total' => $statements_with_submissions_total,
-  'table' => html_writer::table($table)
+  'tasks'       => Iassign::tasks(),
+  'statements_with_submissions_total' => count($statements_with_submissions),
+  'table' => Table::statements(),
+  'form'  => $form->render()
 ];
 
+// rendering template
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('block_atpc/atpc', $data);
 echo $OUTPUT->footer();

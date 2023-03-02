@@ -1,22 +1,13 @@
 <?php
 
-namespace block_atpc;
+namespace block_atpc\Service;
 
 defined('MOODLE_INTERNAL') || die();
+
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/course/lib.php');
 
-/*$query = "SELECT * FROM {iassign_allsubmissions} GROUP BY iassign_statementid AND userid";
-$statements = $DB->get_records_sql($query);
-return $statements;
-
-die();
-
-$str_query = "SELECT id, name, visible FROM {modules} WHERE upper(name) = 'IASSIGN'";
-return $DB->get_records_sql($str_query);
-*/
-
-class Query
+class Iassign
 {
 
     public static function tasks(){
@@ -103,5 +94,15 @@ class Query
                     WHERE id = {$id}";
         $result = $DB->get_record_sql($query);
         if($result) return $result->name;
+    }
+
+    public static function courses(){
+        global $DB, $CFG, $OUTPUT;
+
+        $query = "SELECT UNIQUE(course) FROM {iassign}";
+
+        $results = json_encode($DB->get_records_sql($query));
+        $array = json_decode($results, true);
+        return array_column($array,'course');
     }
 }

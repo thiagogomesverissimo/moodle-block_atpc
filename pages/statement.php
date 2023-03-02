@@ -3,11 +3,11 @@
 require_once($CFG->dirroot . '../vendor/autoload.php');
 
 require_once('../../../config.php');
-require_once('../classes/Query.php');
+require_once('../classes/Iassign.php');
 require_once('../classes/Utils.php');
 
 use Phpml\Regression\LeastSquares;
-use block_atpc\Query;
+use block_atpc\Iassign;
 use block_atpc\Utils;
 use Carbon\Carbon;
 
@@ -23,11 +23,11 @@ $page_title = 'Statement '. $statementid;
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
-$users = Query::usersFromStatement($statementid);
+$users = Iassign::usersFromStatement($statementid);
 
 $lines = [];
 foreach($users as $userid){
-    $submissions = Query::allSubmissionsFromUserAndStatement($statementid,$userid);
+    $submissions = Iassign::allSubmissionsFromUserAndStatement($statementid,$userid);
     foreach($submissions as $submission){
         $next = next($submissions);
         if(empty($next)) continue;
@@ -104,7 +104,7 @@ $data = [
     'difftime'    => implode(',',$array_difftime),
     'diffanswer'  => implode(',',$array_diffanswer),
     'grade_next'  => implode(',',$array_grade),
-    'enunciado'   => Query::getStatementName($statementid),
+    'enunciado'   => Iassign::getStatementName($statementid),
     'table'       => html_writer::table($table),
     'intercept'   => number_format($intercept,3),
     'coefficient' => number_format($coefficient,3),

@@ -3,11 +3,12 @@
 require_once($CFG->dirroot . '../vendor/autoload.php');
 
 use Phpml\Regression\LeastSquares;
+
 require_once('../../../config.php');
-require_once('../classes/Query.php');
+require_once('../classes/Iassign.php');
 require_once('../classes/Utils.php');
 
-use block_atpc\Query;
+use block_atpc\Iassign;
 use block_atpc\Utils;
 use Carbon\Carbon;
 
@@ -23,12 +24,12 @@ $page_title = 'Usuário '. $userid;
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
-$statements = Query::statementsFromUser($userid);
+$statements = Iassign::statementsFromUser($userid);
 
 $lines = [];
 foreach($statements as $statement){
 
-    $submissions = Query::allSubmissionsFromUserAndStatement($statement,$userid);
+    $submissions = Iassign::allSubmissionsFromUserAndStatement($statement,$userid);
 
     foreach($submissions as $submission){
         $next = next($submissions);
@@ -37,7 +38,7 @@ foreach($statements as $statement){
         $lines[] = [
             'submissions'      => $submission['id'] . '-' . $next['id'],
             'statement'        => $statement,
-            'enunciado'        => Query::getStatementName($statement),
+            'enunciado'        => Iassign::getStatementName($statement),
             'timecreated'      => Carbon::createFromTimestamp($submission['timecreated']),
             'timecreated_next' => Carbon::createFromTimestamp($next['timecreated']),
             'grade'            => $submission['grade'],
