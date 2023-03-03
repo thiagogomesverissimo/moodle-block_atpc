@@ -60,73 +60,41 @@ class Table
 
     public static function statement($statementid){
 
-        $users = Iassign::usersFromStatement($statementid);
-
-        $lines = [];
-        foreach($users as $userid){
-            $submissions = Iassign::allSubmissionsFromUserAndStatement($statementid, $userid);
-            foreach($submissions as $submission){
-                $next = next($submissions);
-                if(empty($next)) continue;
-
-                $lines[] = [
-                    'submissions'      => $submission['id'] . '-' . $next['id'],
-                    'userid'           => $userid,
-                    'timecreated'      => Carbon::createFromTimestamp($submission['timecreated']),
-                    'timecreated_next' => Carbon::createFromTimestamp($next['timecreated']),
-                    'grade'            => $submission['grade'],
-                    'grade_next'       => $next['grade'],
-                    'answer'           => strlen($submission['answer']),
-                    'answer_next'      => strlen($next['answer'])
-                ];
-            }
-        }
-
-        $table = new \html_table();
-
-        $table->head = [ 
-            'submissions',
-            'userid',
-            'timecreated',
-            'timecreated_next',
-            'grade',
-            'grade_next',
-            'answer',
-            'answer_next',
-            'diff sec',
-            'diff answer'
-        ];
-
+        $data = PrepareData::statement($statementid);
+/*
         $array_difftime = [];
         $array_diffanswer = [];
         $array_grade = [];
 
-        foreach($lines as $row){
-            $difftime = $row['timecreated']->diffInSeconds($row['timecreated_next']);
-            $diffanswer =  $row['answer_next']-$row['answer'];
+        number_format($row['grade'], 2, ',', ''),
+        number_format($row['grade_next'], 2, ',', ''),
+        $array_difftime[] = Utils::scaleWithLn($difftime);
+        $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
+        $array_grade[] = $row['grade_next'];
+*/
 
-            $array_difftime[] = Utils::scaleWithLn($difftime);
-            $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
-            $array_grade[] = $row['grade_next'];
+        
+        $table = new \html_table();
 
-            $url = new moodle_url('/blocks/atpc/pages/user.php', [
-                'userid' => $row['userid'],
-            ]);
+        $columns = [ 
+            'submissions',
+            'userid',
+           /*'timecreated',
+            'timecreated_next',
+            'difftime',
+            'grade',
+            'grade_next',
+            'answer',
+            'answer_next',
+            'diffanswer'*/
+        ];
 
-            $table->data[] = [
-                $row['submissions'],
-                "<a href='{$url}'>{$row['userid']}</a>",
-                $row['timecreated'],
-                $row['timecreated_next'],
-                number_format($row['grade'], 2, ',', ''),
-                number_format($row['grade_next'], 2, ',', ''),
-                $row['answer'],
-                $row['answer_next'],
-                $difftime,
-                $diffanswer
-            ];
-        }
-        $table->align = ['left','left','right','right','right','right','right','right','right','right'];
+        //$table->head = $columns;
+
+        //echo "<pre>"; var_dump(array_column($rows,'submissions','userid')); die();
+
+        $table->data = $data;
+        //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
     }
