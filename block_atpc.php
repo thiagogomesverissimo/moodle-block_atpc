@@ -1,28 +1,24 @@
 <?php
 
+require_once($CFG->dirroot . '/blocks/atpc/src/Form/AtpcForm.php');
+use block_atpc\Form\AtpcForm;
+
 class block_atpc extends block_base {
     public function init() {
-        $this->title = 'ss';
+        $this->title = get_string('block_title','block_atpc');
     }
 
     public function get_content() {
         global $USER;
 
-        $this->title = 'Mineração dados Itarefas';
+        $this->title = $this->title = get_string('block_name','block_atpc');
         
         $this->content =  new stdClass;
 
-        $this->content->text = 'Exemplo Bloco Educação e Dados';
+        $form = new AtpcForm(new moodle_url('/blocks/atpc/pages/atpc.php'));
 
-        $url = new moodle_url('/blocks/atpc/pages/atpc.php', [
-            #'var1' => $var1,
-        ]);
-
-        $attr = [
-            'class'=>'btn btn-xs btn-success'
-        ];
-
-        $this->content->text .= html_writer::link($url, 'Ver resumo completo', $attr) . '<br><br>';
+        $this->content->text = 'Select a course: ';
+        $this->content->text .= $form->render();
 
         return $this->content;
     }

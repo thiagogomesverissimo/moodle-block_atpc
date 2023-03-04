@@ -2,6 +2,10 @@ Plugin moodle: Analytics Tutor for Programming Courses - ATPC
 
 MAC5857 - Desenvolvimento de Sistemas Web para Apoio ao Ensino/Aprendizagem
 
+In config.php:
+
+    $CFG->dirroot   = '/home/thiago/repos/moodle3_composer_saw';
+
 prof. Leonidas de Oliveira Brandao
 
 Ambiente dev:

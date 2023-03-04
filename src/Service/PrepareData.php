@@ -6,7 +6,7 @@ require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '../../vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 

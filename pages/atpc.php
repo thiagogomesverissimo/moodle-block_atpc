@@ -6,13 +6,13 @@ defined('MOODLE_INTERNAL') || die();
 require_login();
 
 // plugin classes
-require_once('../src/Form/AtpcForm.php');
-require_once('../src/Service/Iassign.php');
-require_once('../src/Service/Utils.php');
-require_once('../src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Form/AtpcForm.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Table.php');
 use block_atpc\Form\AtpcForm;
-use block_atpc\Service\Utils;
 use block_atpc\Service\Iassign;
+use block_atpc\Service\Utils;
 use block_atpc\Service\Table;
 
 // Metadata for moodle page

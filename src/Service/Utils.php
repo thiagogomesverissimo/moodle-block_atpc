@@ -2,6 +2,7 @@
 
 namespace block_atpc\Service;
 
+require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 class Utils

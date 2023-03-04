@@ -3,6 +3,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Analytics Tutor for Programming Courses';
-$string['block_title'] = 'Mineração dados Itarefas';
-$string['blockname'] = 'Mineração dados Itarefas';
+$string['block_title'] = 'Analytics Tutor for Programming Courses';
+$string['block_name'] = 'Analytics Tutor for Programming Courses';
 

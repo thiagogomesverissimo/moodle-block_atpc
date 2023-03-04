@@ -6,7 +6,7 @@ require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '../../vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 
@@ -62,18 +62,12 @@ class Table
 
         $data = PrepareData::statement($statementid);
 /*
-        $array_difftime = [];
-        $array_diffanswer = [];
-        $array_grade = [];
-
         number_format($row['grade'], 2, ',', ''),
         number_format($row['grade_next'], 2, ',', ''),
         $array_difftime[] = Utils::scaleWithLn($difftime);
         $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
         $array_grade[] = $row['grade_next'];
 */
-
-        
         $table = new \html_table();
 
         $columns = [ 
@@ -91,11 +85,28 @@ class Table
 
         //$table->head = $columns;
 
-        //echo "<pre>"; var_dump(array_column($rows,'submissions','userid')); die();
+        echo "<pre>"; var_dump( self::array_column_keys($data,'submissions')  ); die();
+        #echo "<pre>"; var_dump( array_combine(array_keys($data), array_column($data, 0))  ); die();
+        #echo "<pre>"; var_dump( array_combine(array_keys($data), array_column($data, 0))  ); die();
+        #echo "<pre>"; var_dump( array_combine(array_keys($data), array_column($data, 0))  ); die();
 
         $table->data = $data;
         //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
+    }
+
+
+    private static function array_column_keys($array, $column, $index_key = null)
+    {
+        $output = [];
+
+        foreach ($array as $key => $item) {
+            $output[@$item[$index_key] ?? $key] = @$item[$column];
+        }
+
+        return array_filter($output, function($item) {
+            return null !== $item;
+        });
     }
 }

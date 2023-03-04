@@ -1,26 +1,26 @@
 <?php
 
-// loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '../vendor/autoload.php');
-use Phpml\Regression\LeastSquares;
-use Carbon\Carbon;
-
 // protecting the page
 require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 require_login();
 
+// loading external libraries installed inside of the plugin with composer
+require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
+use Phpml\Regression\LeastSquares;
+use Carbon\Carbon;
+
 // plugin classes
-require_once('../src/Service/Iassign.php');
-require_once('../src/Service/Utils.php');
-require_once('../src/Service/Table.php');
-require_once('../src/Service/PrepareData.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/PrepareData.php');
 use block_atpc\Service\Iassign;
 use block_atpc\Service\Utils;
 use block_atpc\Service\Table;
 use block_atpc\Service\PrepareData;
 
-// params received
+// required params from request
 $statementid = required_param('statementid', PARAM_INT);
 
 // Metadata for moodle page
@@ -30,8 +30,6 @@ $PAGE->set_context(context_system::instance());
 $page_title = 'Statement '. $statementid; // TODO: internationalization
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
-
-
 
 // Regressão linear
 //$x = array_map(function ($x) { return [$x]; }, $array_difftime); $array_difftime;
