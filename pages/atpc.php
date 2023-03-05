@@ -30,7 +30,7 @@ $form = new AtpcForm();
 // data from form
 $request = $form->get_data();
 if(!empty($request) and !is_null($request)){
-  $course = $request->course;
+  $course = $request->course_id;
 } else {
   // zero means all courses
   $course = 0;

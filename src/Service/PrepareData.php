@@ -39,14 +39,20 @@ class PrepareData
                 $answer_next = strlen($next['answer']);
                 $diffanswer = $answer_next - $answer;
 
+                /*
+                $array_difftime[] = Utils::scaleWithLn($difftime);
+                $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
+                */
 
                 $rows[] = [
                     'submissions'      => $submission['id'] . '-' . $next['id'],
                     'userid'           => $userid,
                     'userid_link'      => "<a href='{$url}'>{$userid}</a>",
 
-                    'grade'            => $submission['grade'],
-                    'grade_next'       => $next['grade'],
+                    'grade'            => number_format($submission['grade'], 2, ',', ''),
+                    'grade_number'     => $submission['grade'],
+                    'grade_next'       => number_format($next['grade'], 2, ',', ''),
+                    'grade_next_number'=> $next['grade'],
 
                     'timecreated'      => $timecreated,
                     'timecreated_next' => $timecreated_next,

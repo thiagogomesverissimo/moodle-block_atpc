@@ -12,9 +12,8 @@ class block_atpc extends block_base {
         global $USER;
 
         $this->title = $this->title = get_string('block_name','block_atpc');
+        $this->content = new stdClass;
         
-        $this->content =  new stdClass;
-
         $form = new AtpcForm(new moodle_url('/blocks/atpc/pages/atpc.php'));
 
         $this->content->text = 'Select a course: ';

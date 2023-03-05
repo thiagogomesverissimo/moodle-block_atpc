@@ -9,6 +9,9 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
+use Illuminate\Support\Collection;
+
+use block_atpc\Service\Utils;
 
 class Table
 {
@@ -61,52 +64,38 @@ class Table
     public static function statement($statementid){
 
         $data = PrepareData::statement($statementid);
-/*
-        number_format($row['grade'], 2, ',', ''),
-        number_format($row['grade_next'], 2, ',', ''),
-        $array_difftime[] = Utils::scaleWithLn($difftime);
-        $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
-        $array_grade[] = $row['grade_next'];
-*/
+
         $table = new \html_table();
 
         $columns = [ 
             'submissions',
             'userid',
-           /*'timecreated',
+            'timecreated',
             'timecreated_next',
             'difftime',
             'grade',
             'grade_next',
             'answer',
             'answer_next',
-            'diffanswer'*/
+            'diffanswer'
         ];
 
-        //$table->head = $columns;
+        $data_filtered = Utils::filterArrayByKeys($data, $columns);
 
-        echo "<pre>"; var_dump( self::array_column_keys($data,'submissions')  ); die();
-        #echo "<pre>"; var_dump( array_combine(array_keys($data), array_column($data, 0))  ); die();
-        #echo "<pre>"; var_dump( array_combine(array_keys($data), array_column($data, 0))  ); die();
-        #echo "<pre>"; var_dump( array_combine(array_keys($data), array_column($data, 0))  ); die();
+        // this if is necessary because filterArrayByKeys changed the order of columns
+        if(empty($data_filtered)){
+            $table->head = $columns;
+        } else {
+            $table->head = array_keys($data_filtered[0]);
+        }
+        
 
-        $table->data = $data;
+        
+
+        $table->data = $data_filtered; 
         //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
     }
-
-
-    private static function array_column_keys($array, $column, $index_key = null)
-    {
-        $output = [];
-
-        foreach ($array as $key => $item) {
-            $output[@$item[$index_key] ?? $key] = @$item[$column];
-        }
-
-        return array_filter($output, function($item) {
-            return null !== $item;
-        });
-    }
+  
 }

@@ -131,10 +131,6 @@ class Iassign
         return array_column($array,'iassign_statementid');
     }
 
-
-
-
-
     public static function courses(){
         global $DB, $CFG, $OUTPUT;
 
@@ -143,7 +139,7 @@ class Iassign
         $results = json_encode($DB->get_records_sql($query));
         $array = json_decode($results, true);
         $array =  array_column($array,'course');
-
+        
         // in this moment keeping the course id in array key and the same in the array value
         // in future, display courses names in the array values
         $courses = array_combine($array, $array);
