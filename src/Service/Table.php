@@ -89,9 +89,6 @@ class Table
             $table->head = array_keys($data_filtered[0]);
         }
         
-
-        
-
         $table->data = $data_filtered; 
         //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 

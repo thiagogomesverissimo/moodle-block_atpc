@@ -39,11 +39,6 @@ class PrepareData
                 $answer_next = strlen($next['answer']);
                 $diffanswer = $answer_next - $answer;
 
-                /*
-                $array_difftime[] = Utils::scaleWithLn($difftime);
-                $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
-                */
-
                 $rows[] = [
                     'submissions'      => $submission['id'] . '-' . $next['id'],
                     'userid'           => $userid,
@@ -57,10 +52,12 @@ class PrepareData
                     'timecreated'      => $timecreated,
                     'timecreated_next' => $timecreated_next,
                     'difftime'         => $difftime,
+                    'difftime_ln'      => Utils::scaleWithLn($difftime),
 
                     'answer'           => $answer,
                     'answer_next'      => $answer_next,
                     'diffanswer'       => $diffanswer,
+                    'diffanswer_ln'      => Utils::scaleWithLn($diffanswer),
                 ];
             }
         }
