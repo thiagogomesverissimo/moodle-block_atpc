@@ -7,6 +7,8 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/course/lib.php');
 
+use block_atpc\Service\Utils;
+
 class Iassign
 {
 
@@ -134,15 +136,22 @@ class Iassign
     public static function courses(){
         global $DB, $CFG, $OUTPUT;
 
-        $query = "SELECT UNIQUE(course) FROM {iassign}";
+        $query = "SELECT UNIQUE(a.course), b.shortname, b.fullname 
+                    FROM {iassign} AS a 
+                    INNER JOIN {course} AS b 
+                    ON a.course = b.id
+                    ORDER BY a.course";
+
 
         $results = json_encode($DB->get_records_sql($query));
         $array = json_decode($results, true);
-        $array =  array_column($array,'course');
-        
-        // in this moment keeping the course id in array key and the same in the array value
-        // in future, display courses names in the array values
-        $courses = array_combine($array, $array);
+
+        $courses = [];
+
+        foreach($array as $item){
+            $courses[$item['course']] = "({$item['course']}) {$item['shortname']} - {$item['fullname']}";
+        }
+
         return $courses;
     }
 }

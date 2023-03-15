@@ -31,9 +31,9 @@ $page_title = 'Statement '. $statementid; // TODO: internationalization
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
-// x e y para regressão linear
-$table = PrepareData::statement($statementid);
-$xy = Utils::filterArrayByKeys($table, ['difftime_ln','diffanswer_ln']);
+// preparando x e y para regressão linear
+$data = PrepareData::statement($statementid);
+$xy = Utils::filterArrayByKeys($data, ['difftime_ln','diffanswer_ln']);
 $x =  array_map(function ($array) { return [$array['difftime_ln']]; }, $xy);
 $y = array_map(function ($array) { return $array['diffanswer_ln']; }, $xy);
 
@@ -42,17 +42,16 @@ $regression = new LeastSquares();
 $regression->train($x, $y);
 $intercept = $regression->getIntercept();
 $coefficient = $regression->getCoefficients()[0];
-die($intercept);
 
 $data = [
-//    'difftime'    => implode(',',$array_difftime),
-    'diffanswer'  => implode(',',$y),
-//    'grade_next'  => implode(',',$array_grade),
+    'x' => implode(',',array_column($x,0)),
+    'y' => implode(',',$y),
+    'grade_next'  => implode(',',array_column($data, 'grade_next')),
     'enunciado'   => Iassign::getStatementName($statementid),
     'table'       => Table::statement($statementid),
     'intercept'   => number_format($intercept,3),
     'coefficient' => number_format($coefficient,3),
-//    'max'         => max($array_difftime)
+    'max'         => max($y)
   ];
 
 echo $OUTPUT->header();
