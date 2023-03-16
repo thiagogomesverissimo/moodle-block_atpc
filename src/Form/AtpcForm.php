@@ -12,7 +12,6 @@ class AtpcForm extends \moodleform {
     public function definition() {
 
         $courses = Iassign::courses();
-        //echo "<pre>"; var_dump($courses); die();
         $courses[0] = 'All Courses'; // TODO: internationalization
 
         $select = $this->_form->addElement('select', 'course_id', '', $courses);

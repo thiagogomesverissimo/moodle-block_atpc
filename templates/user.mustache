@@ -13,12 +13,13 @@
 
     var pontos = {
 
-        x: [{{difftime}}], //[1, 2, 3, 4],
-        y: [{{diffanswer}}], //[10, 11, 12, 13],
+        x: [{{x}}], //[1, 2, 3, 4],
+        y: [{{y}}], //[10, 11, 12, 13],
         mode: 'markers',
+        text: [{{ grade_next_number }}],
         marker: {
             size: 8,
-            color: [{{grade_next}}],
+            color: [{{ grade_next_number }}],
             colorscale: [
               [0.000, "rgb(255, 0, 0)"],
               [0.5, "rgb(0,0,255)"],
@@ -32,7 +33,7 @@
     var layout = {
       showlegend: false,
       title: {
-        text:'Comportamento do aluno: {{userid}}',
+        text:'',
         font: {
           family: 'Courier New, monospace',
           size: 24

@@ -137,23 +137,23 @@ class Iassign
         return array_column($array,'iassign_statementid');
     }
 
-    /*
-     * Só trabalhando com cursos que tem pelo menos 10 submissões para excluir eventuais testes
-     */
     public static function courses(){
         global $DB, $CFG, $OUTPUT;
 
-        # statmeten com 10 submisoes
+        // filtering only statements (and courses) with at least 10 submissions
+        $statement_ids = "SELECT iassign_statementid
+                    FROM {iassign_allsubmissions} 
+                    GROUP BY iassign_statementid 
+                    HAVING COUNT(*) > 10";
 
-        # SELECT iassign_statementid, COUNT(*) FROM s_iassign_allsubmissions GROUP BY iassign_statementid HAVING COUNT(*) > 10
+        $iassign_ids = "SELECT iassignid FROM {iassign_statement} WHERE id IN ({$statement_ids})";
 
         $query = "SELECT UNIQUE({iassign}.course), 
                          {course}.shortname, 
                          {course}.fullname 
                     FROM {iassign} 
                     INNER JOIN {course} ON {iassign}.course = {course}.id
-                    WHERE {iassign}.id IN 
-                        (SELECT iassignid FROM {iassign_statement} GROUP BY iassignid )
+                    WHERE {iassign}.id IN ({$iassign_ids})
                     ORDER BY {iassign}.course";
 
         $results = json_encode($DB->get_records_sql($query));
@@ -166,5 +166,12 @@ class Iassign
         }
 
         return $courses;
+    }
+
+    public static function getUserName($userid){
+        global $DB, $CFG, $OUTPUT;
+
+        $user = $DB->get_record("user", ["id" => $userid]);
+        return "{$user->firstname} {$user->lastname}";
     }
 }

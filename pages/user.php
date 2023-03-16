@@ -1,121 +1,57 @@
 <?php
 
-require_once($CFG->dirroot . '../vendor/autoload.php');
-
-use Phpml\Regression\LeastSquares;
-
+// protecting the page
 require_once('../../../config.php');
-require_once('../classes/Iassign.php');
-require_once('../classes/Utils.php');
-
-use block_atpc\Iassign;
-use block_atpc\Utils;
-use Carbon\Carbon;
-
+defined('MOODLE_INTERNAL') || die();
 require_login();
 
+// loading external libraries installed inside of the plugin with composer
+require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
+use Phpml\Regression\LeastSquares;
+use Carbon\Carbon;
+
+// plugin classes
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/atpc/src/Service/PrepareData.php');
+use block_atpc\Service\Iassign;
+use block_atpc\Service\Utils;
+use block_atpc\Service\Table;
+use block_atpc\Service\PrepareData;
+
+// required params from request
+$userid = required_param('userid', PARAM_INT);
+
+// Metadata for moodle page
 $url = new moodle_url("/blocks/atpc/pages/user.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
-
-$userid = required_param('userid', PARAM_INT);
-
-$page_title = 'Usuário '. $userid;
+$page_title = Iassign::getUserName($userid);
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
-$statements = Iassign::statementsFromUser($userid);
-
-$lines = [];
-foreach($statements as $statement){
-
-    $submissions = Iassign::allSubmissionsFromUserAndStatement($statement,$userid);
-
-    foreach($submissions as $submission){
-        $next = next($submissions);
-        if(empty($next)) continue;
-
-        $lines[] = [
-            'submissions'      => $submission['id'] . '-' . $next['id'],
-            'statement'        => $statement,
-            'enunciado'        => Iassign::getStatementName($statement),
-            'timecreated'      => Carbon::createFromTimestamp($submission['timecreated']),
-            'timecreated_next' => Carbon::createFromTimestamp($next['timecreated']),
-            'grade'            => $submission['grade'],
-            'grade_next'       => $next['grade'],
-            'answer'           => strlen($submission['answer']),
-            'answer_next'      => strlen($next['answer'])
-        ];
-    }
-}
-
-$table = new html_table();
-
-$table->head = [ 
-  'submissions',
-  'statement',
-  'enunciado',
-  'timecreated',
-  'timecreated_next',
-  'grade',
-  'grade_next',
-  'answer',
-  'answer_next',
-  'diff sec',
-  'diff answer'
-];
-
-$array_difftime = [];
-$array_diffanswer = [];
-$array_grade = [];
-
-foreach($lines as $row){
-    $difftime = $row['timecreated']->diffInSeconds($row['timecreated_next']);
-    $diffanswer =  $row['answer_next']-$row['answer'];
-   
-    $array_difftime[] = Utils::scaleWithLn($difftime);
-    $array_diffanswer[] = Utils::scaleWithLn($diffanswer);
-    $array_grade[] = $row['grade_next'];
-
-    $url = new moodle_url('/blocks/atpc/pages/statement.php', [
-        'statementid' => $row['statement'],
-    ]);
-
-    $table->data[] = [
-        $row['submissions'],
-        "<a href='$url'>{$row['statement']}</a>",
-        $row['enunciado'],
-        $row['timecreated'],
-        $row['timecreated_next'],
-        number_format($row['grade'], 2, ',', ''),
-        number_format($row['grade_next'], 2, ',', ''),
-        $row['answer'],
-        $row['answer_next'],
-        $difftime,
-        $diffanswer
-      ];
-}
-$table->align = ['left','left','right','right','right','right','right','right','right','right','right'];
+// preparando x e y para regressão linear
+$data = PrepareData::user($userid);
+$xy = Utils::filterArrayByKeys($data, ['difftime_ln','diffanswer_ln']);
+$x =  array_map(function ($array) { return [$array['difftime_ln']]; }, $xy);
+$y = array_map(function ($array) { return $array['diffanswer_ln']; }, $xy);
 
 // Regressão linear
-$x = array_map(function ($x) { return [$x]; }, $array_difftime); $array_difftime;
-$y = $array_diffanswer;
-
 $regression = new LeastSquares();
 $regression->train($x, $y);
 $intercept = $regression->getIntercept();
 $coefficient = $regression->getCoefficients()[0];
 
 $data = [
-    'difftime'   => implode(',',$array_difftime),
-    'diffanswer' => implode(',',$array_diffanswer),
-    'grade_next' => implode(',',$array_grade),
-    'userid'     => $userid,
-    'table'      => html_writer::table($table),
+    'x' => implode(',',array_column($x,0)),
+    'y' => implode(',',$y),
+    'grade_next_number'  => implode(',',array_column($data, 'grade_next_number')),
+    'table'       => Table::user($userid),
     'intercept'   => number_format($intercept,3),
     'coefficient' => number_format($coefficient,3),
-    'max'         => max($array_difftime)
-  ];
+    'max'         => max($y)
+];
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('block_atpc/user', $data);

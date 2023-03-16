@@ -69,7 +69,7 @@ class Table
 
         $columns = [ 
             'submissions',
-            'userid',
+            'userid_link',
             'timecreated',
             'timecreated_next',
             'difftime',
@@ -90,9 +90,42 @@ class Table
         }
         
         $table->data = $data_filtered; 
-        //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
+        $table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
     }
   
+    public static function user($userid){
+
+        $data = PrepareData::user($userid);
+
+        $table = new \html_table();
+
+        $columns = [ 
+            'submissions',
+            'statement_title',
+            'timecreated',
+            'timecreated_next',
+            'difftime',
+            'grade',
+            'grade_next',
+            'answer',
+            'answer_next',
+            'diffanswer'
+        ];
+
+        $data_filtered = Utils::filterArrayByKeys($data, $columns);
+
+        // this if is necessary because filterArrayByKeys changed the order of columns
+        if(empty($data_filtered)){
+            $table->head = $columns;
+        } else {
+            $table->head = array_keys($data_filtered[0]);
+        }
+        
+        $table->data = $data_filtered; 
+        $table->align = ['left','left','right','right','right','right','right','right','right','right'];
+
+        return \html_writer::table($table);
+    }
 }

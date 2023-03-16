@@ -15,14 +15,14 @@
         x: [{{x}}], // E[1, 2, 3, 4],
         y: [{{y}}], //[10, 11, 12, 13],
         mode: 'markers',
-        text: [{{ grade_next }}],
+        text: [{{ grade_next_number }}],
         marker: {
             size: 8,
-            color: [{{ grade_next }}],
+            color: [{{ grade_next_number }}],
             colorscale: [
-              ['0.0', 'rgb(255,0,0)'],
-              ['0.5', 'rgb(215,48,39)'],
-              ['1', 'rgb(0,0,255)']
+              [0.000, "rgb(255, 0, 0)"],
+              [0.5, "rgb(0,0,255)"],
+              [1.000, "rgb(0,0,255)"]
             ],
         }
     };
@@ -30,7 +30,7 @@
     var data = [pontos];
 
     var layout = {
-      showlegend: true,
+      showlegend: false,
       title: {
         text:'Avaliando qualidade da tarefa: <br>{{{enunciado}}}',
         font: {

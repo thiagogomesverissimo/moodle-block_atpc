@@ -46,13 +46,13 @@ $coefficient = $regression->getCoefficients()[0];
 $data = [
     'x' => implode(',',array_column($x,0)),
     'y' => implode(',',$y),
-    'grade_next'  => implode(',',array_column($data, 'grade_next_number')),
+    'grade_next_number'  => implode(',',array_column($data, 'grade_next_number')),
     'enunciado'   => Iassign::getStatementName($statementid),
     'table'       => Table::statement($statementid),
     'intercept'   => number_format($intercept,3),
     'coefficient' => number_format($coefficient,3),
     'max'         => max($y)
-  ];
+];
 
 echo $OUTPUT->header();
 echo $OUTPUT->render_from_template('block_atpc/statement', $data);

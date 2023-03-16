@@ -63,4 +63,53 @@ class PrepareData
         }
         return $rows;
     }   
+
+    public static function user($userid){
+
+        $statements = Iassign::statementsFromUser($userid);
+
+        $rows = [];
+        foreach($statements as $statement){
+
+            $submissions = Iassign::allSubmissionsFromUserAndStatement($statement, $userid);
+            foreach($submissions as $submission){
+
+                $next = next($submissions);
+                if(empty($next)) continue;
+
+                // working in dates with carbon
+                $timecreated = Carbon::createFromTimestamp($submission['timecreated']);
+                $timecreated_next = Carbon::createFromTimestamp($next['timecreated']);
+                $difftime = $timecreated->diffInSeconds($timecreated_next);
+
+                // TODO: find a better way to work with code difference
+                $answer = strlen($submission['answer']);
+                $answer_next = strlen($next['answer']);
+                $diffanswer = $answer_next - $answer;
+
+                $rows[] = [
+                    'submissions'      => $submission['id'] . '-' . $next['id'],
+                    'userid'           => $userid,
+
+                    'statement_title'  => Iassign::getStatementName($statement),
+
+                    'grade'            => number_format($submission['grade'], 2, ',', ''),
+                    'grade_number'     => $submission['grade'],
+                    'grade_next'       => number_format($next['grade'], 2, ',', ''),
+                    'grade_next_number'=> $next['grade'],
+
+                    'timecreated'      => $timecreated,
+                    'timecreated_next' => $timecreated_next,
+                    'difftime'         => $difftime,
+                    'difftime_ln'      => Utils::scaleWithLn($difftime),
+
+                    'answer'           => $answer,
+                    'answer_next'      => $answer_next,
+                    'diffanswer'       => $diffanswer,
+                    'diffanswer_ln'      => Utils::scaleWithLn($diffanswer),
+                ];
+            }
+        }
+        return $rows;
+    }
 }
