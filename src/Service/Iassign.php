@@ -33,7 +33,8 @@ class Iassign
 
         // filter by course
         if($course != 0) {
-            $query .= " INNER JOIN {iassign} ON {iassign_statement}.iassignid = {iassign}.id
+            $query .= " INNER JOIN {iassign} 
+                          ON {iassign_statement}.iassignid = {iassign}.id
                         WHERE {iassign}.course = {$course}";
         }
 
@@ -41,7 +42,6 @@ class Iassign
         return $result->total;
     }
 
-    // era totalSubmissionsFromStatement
     public static function numberOfSubmissionsFromStatement($statementid){
         global $DB, $CFG, $OUTPUT;
 
@@ -63,8 +63,10 @@ class Iassign
         
         // filter by course
         if($course != 0) {
-            $query .= " INNER JOIN {iassign_statement} ON {iassign_allsubmissions}.iassign_statementid = {iassign_statement}.id 
-                        INNER JOIN {iassign} ON {iassign_statement}.iassignid = {iassign}.id
+            $query .= " INNER JOIN {iassign_statement} 
+                            ON {iassign_allsubmissions}.iassign_statementid = {iassign_statement}.id 
+                        INNER JOIN {iassign} 
+                            ON {iassign_statement}.iassignid = {iassign}.id
                         WHERE {iassign}.course = {$course}";
         }
 
@@ -104,6 +106,7 @@ class Iassign
         $query = "SELECT *
                          FROM {iassign_allsubmissions}
                          WHERE iassign_statementid = {$statementid}
+                         AND grade >= 0
                          AND userid  = {$userid}";
         $results = json_encode($DB->get_records_sql($query));
         return json_decode($results, true);
@@ -115,6 +118,7 @@ class Iassign
         $query = "SELECT UNIQUE(userid)
                          FROM {iassign_allsubmissions}
                          WHERE iassign_statementid = {$statementid}
+                         AND grade >= 0
                          GROUP BY userid";
         $results = json_encode($DB->get_records_sql($query));
         $array = json_decode($results, true);
@@ -133,15 +137,24 @@ class Iassign
         return array_column($array,'iassign_statementid');
     }
 
+    /*
+     * Só trabalhando com cursos que tem pelo menos 10 submissões para excluir eventuais testes
+     */
     public static function courses(){
         global $DB, $CFG, $OUTPUT;
 
-        $query = "SELECT UNIQUE(a.course), b.shortname, b.fullname 
-                    FROM {iassign} AS a 
-                    INNER JOIN {course} AS b 
-                    ON a.course = b.id
-                    ORDER BY a.course";
+        # statmeten com 10 submisoes
 
+        # SELECT iassign_statementid, COUNT(*) FROM s_iassign_allsubmissions GROUP BY iassign_statementid HAVING COUNT(*) > 10
+
+        $query = "SELECT UNIQUE({iassign}.course), 
+                         {course}.shortname, 
+                         {course}.fullname 
+                    FROM {iassign} 
+                    INNER JOIN {course} ON {iassign}.course = {course}.id
+                    WHERE {iassign}.id IN 
+                        (SELECT iassignid FROM {iassign_statement} GROUP BY iassignid )
+                    ORDER BY {iassign}.course";
 
         $results = json_encode($DB->get_records_sql($query));
         $array = json_decode($results, true);
