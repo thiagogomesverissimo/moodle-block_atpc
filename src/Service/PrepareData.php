@@ -34,10 +34,13 @@ class PrepareData
                 $timecreated_next = Carbon::createFromTimestamp($next['timecreated']);
                 $difftime = $timecreated->diffInSeconds($timecreated_next);
 
-                // TODO: find a better way to work with code difference
                 $answer = strlen($submission['answer']);
                 $answer_next = strlen($next['answer']);
-                $diffanswer = $answer_next - $answer;
+
+                // TODO: find a better way to work with code difference
+                //$diffanswer = $answer_next - $answer;
+                //https://www.php.net/manual/en/function.similar-text.php
+                $diffanswer = similar_text($submission['answer'],$next['answer']);
 
                 $rows[] = [
                     'submissions'      => $submission['id'] . '-' . $next['id'],
@@ -85,7 +88,11 @@ class PrepareData
                 // TODO: find a better way to work with code difference
                 $answer = strlen($submission['answer']);
                 $answer_next = strlen($next['answer']);
-                $diffanswer = $answer_next - $answer;
+                
+                // TODO: find a better way to work with code difference
+                //$diffanswer = $answer_next - $answer;
+                //https://www.php.net/manual/en/function.similar-text.php
+                $diffanswer = similar_text($submission['answer'],$next['answer']);
 
                 $rows[] = [
                     'submissions'      => $submission['id'] . '-' . $next['id'],
