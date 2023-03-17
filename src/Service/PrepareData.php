@@ -32,7 +32,8 @@ class PrepareData
                 // working in dates with carbon
                 $timecreated = Carbon::createFromTimestamp($submission['timecreated']);
                 $timecreated_next = Carbon::createFromTimestamp($next['timecreated']);
-                $difftime = $timecreated->diffInSeconds($timecreated_next);
+                //$difftime = $timecreated->diffInSeconds($timecreated_next);
+                $difftime = $next['timecreated']-$submission['timecreated'];
 
                 $answer = strlen($submission['answer']);
                 $answer_next = strlen($next['answer']);
@@ -60,12 +61,62 @@ class PrepareData
                     'answer'           => $answer,
                     'answer_next'      => $answer_next,
                     'diffanswer'       => $diffanswer,
-                    'diffanswer_ln'      => Utils::scaleWithLn($diffanswer),
-                ];
+                    'diffanswer_ln'    => Utils::scaleWithLn($diffanswer),
+
+                    // Number of changes in the submission code per seconds
+                    'dt'               => $difftime/$diffanswer
+                ]; 
             }
         }
         return $rows;
-    }   
+    }
+
+    public static function statementDex($statementid){
+        $users = Iassign::usersFromStatement($statementid);
+
+        $rows = [];
+        foreach($users as $userid){
+
+            $submissions = Iassign::allSubmissionsFromUserAndStatement($statementid, $userid);
+
+            // grade average
+            $grades = array_column($submissions,'grade');
+            $n = count($grades);
+            $grade_average = array_sum($grades)/$n;
+
+            $times = array_column($submissions,'timecreated');
+            $tms = max($times) - min($times);
+
+            //var_dump($times); die();
+
+            $rows[$userid] = [
+                'mtes'          => 0,  // Highest TES
+                'mdes'          => 0,  // Highest DES
+                'dex'           => $grade_average/($tms+$n)
+            ];
+
+            foreach($submissions as $submission){
+
+                $next = next($submissions);
+                if(empty($next)) continue;
+                
+                // TES: Time window for the submission              
+                $tes = $next['timecreated'] - $submission['timecreated'];
+
+                // MTES: the highest time window between submissions
+                if($tes > $rows[$userid]['mtes']) $rows[$userid]['mtes'] = $tes;
+                
+                // DES: Levenshtein distance between the submission code and the previous one
+                //https://www.php.net/manual/en/function.similar-text.php
+                $des = similar_text($submission['answer'],$next['answer']);
+
+                // Highest DES
+                if($des > $rows[$userid]['mdes']) $rows[$userid]['mdes'] = $des;
+            }
+        }
+        return $rows;
+    }
+    
 
     public static function user($userid){
 
@@ -80,10 +131,11 @@ class PrepareData
                 $next = next($submissions);
                 if(empty($next)) continue;
 
-                // working in dates with carbon
+                // time window for the submission
                 $timecreated = Carbon::createFromTimestamp($submission['timecreated']);
                 $timecreated_next = Carbon::createFromTimestamp($next['timecreated']);
-                $difftime = $timecreated->diffInSeconds($timecreated_next);
+                //$difftime = $timecreated->diffInSeconds($timecreated_next);
+                $difftime = $next['timecreated']-$submission['timecreated'];
 
                 // TODO: find a better way to work with code difference
                 $answer = strlen($submission['answer']);

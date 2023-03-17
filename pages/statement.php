@@ -23,6 +23,8 @@ use block_atpc\Service\PrepareData;
 // required params from request
 $statementid = required_param('statementid', PARAM_INT);
 
+Table::statementDex($statementid);
+
 // Metadata for moodle page
 $url = new moodle_url("/blocks/atpc/pages/statement.php");
 $PAGE->set_url($url);

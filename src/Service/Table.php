@@ -77,7 +77,8 @@ class Table
             'grade_next',
             'answer',
             'answer_next',
-            'diffanswer'
+            'diffanswer',
+            'dt'
         ];
 
         $data_filtered = Utils::filterArrayByKeys($data, $columns);
@@ -93,6 +94,11 @@ class Table
         $table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
+    }
+
+    public static function statementDex($statementid){
+        $data = PrepareData::statementDex($statementid);
+        echo '<pre>'; var_dump($data); die();
     }
   
     public static function user($userid){
