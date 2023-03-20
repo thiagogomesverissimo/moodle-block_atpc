@@ -1,12 +1,12 @@
 <?php
 
-namespace block_atpc\Service;
+namespace block_itpc\Service;
 
 require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/itpc/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 
@@ -19,7 +19,7 @@ class PrepareData
         $rows = [];
         foreach($users as $userid){
 
-            $url = new \moodle_url('/blocks/atpc/pages/user.php', [
+            $url = new \moodle_url('/blocks/itpc/pages/user.php', [
                 'userid' => $userid,
             ]);
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace block_atpc\Form;
+namespace block_itpc\Form;
 
 //require_once($CFG->libdir . "/formslib.php");
 
-require_once($CFG->dirroot . '/blocks/atpc/src/Service/Iassign.php');
-use block_atpc\Service\Iassign;
+require_once($CFG->dirroot . '/blocks/itpc/src/Service/Iassign.php');
+use block_itpc\Service\Iassign;
 
-class AtpcForm extends \moodleform {
+class ItpcForm extends \moodleform {
 
     public function definition() {
 

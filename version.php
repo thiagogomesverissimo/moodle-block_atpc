@@ -2,5 +2,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'block_atpc';
+$plugin->component = 'block_itpc';
 $plugin->version = 2022090901;

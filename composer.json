@@ -1,6 +1,6 @@
 {
-    "name": "moodle/atpc",
-    "description": "Analytics Tutor for Programming Courses",
+    "name": "moodle/itpc",
+    "description": "Intelligent Tutor for Programming Courses",
     "type": "moodle-plugin",
     "authors": [
         {

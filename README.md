@@ -1,4 +1,4 @@
-Plugin moodle: Analytics Tutor for Programming Courses - ATPC
+Plugin moodle: Intelligent Tutor for Programming Courses - ATPC
 
 MAC5857 - Desenvolvimento de Sistemas Web para Apoio ao Ensino/Aprendizagem
 

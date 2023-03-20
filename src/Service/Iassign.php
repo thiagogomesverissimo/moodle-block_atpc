@@ -1,13 +1,13 @@
 <?php
 
-namespace block_atpc\Service;
+namespace block_itpc\Service;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/course/lib.php');
 
-use block_atpc\Service\Utils;
+use block_itpc\Service\Utils;
 
 class Iassign
 {

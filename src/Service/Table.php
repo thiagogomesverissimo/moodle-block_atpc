@@ -1,17 +1,17 @@
 <?php
 
-namespace block_atpc\Service;
+namespace block_itpc\Service;
 
 require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/itpc/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-use block_atpc\Service\Utils;
+use block_itpc\Service\Utils;
 
 class Table
 {
@@ -32,7 +32,7 @@ class Table
 
         foreach(Iassign::statementsWithSubmissions($course) as $statement){
 
-            $url = new \moodle_url('/blocks/atpc/pages/statement.php', [
+            $url = new \moodle_url('/blocks/itpc/pages/statement.php', [
                 'statementid' => $statement->id,
             ]);
           

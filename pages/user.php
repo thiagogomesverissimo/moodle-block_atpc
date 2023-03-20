@@ -6,25 +6,25 @@ defined('MOODLE_INTERNAL') || die();
 require_login();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '/blocks/atpc/vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/itpc/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 
 // plugin classes
-require_once($CFG->dirroot . '/blocks/atpc/src/Service/Iassign.php');
-require_once($CFG->dirroot . '/blocks/atpc/src/Service/Utils.php');
-require_once($CFG->dirroot . '/blocks/atpc/src/Service/Table.php');
-require_once($CFG->dirroot . '/blocks/atpc/src/Service/PrepareData.php');
-use block_atpc\Service\Iassign;
-use block_atpc\Service\Utils;
-use block_atpc\Service\Table;
-use block_atpc\Service\PrepareData;
+require_once($CFG->dirroot . '/blocks/itpc/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/itpc/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/itpc/src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/itpc/src/Service/PrepareData.php');
+use block_itpc\Service\Iassign;
+use block_itpc\Service\Utils;
+use block_itpc\Service\Table;
+use block_itpc\Service\PrepareData;
 
 // required params from request
 $userid = required_param('userid', PARAM_INT);
 
 // Metadata for moodle page
-$url = new moodle_url("/blocks/atpc/pages/user.php");
+$url = new moodle_url("/blocks/itpc/pages/user.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $page_title = Iassign::getUserName($userid);
@@ -54,5 +54,5 @@ $data = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_atpc/user', $data);
+echo $OUTPUT->render_from_template('block_itpc/user', $data);
 echo $OUTPUT->footer();
