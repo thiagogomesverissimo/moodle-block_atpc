@@ -32,7 +32,11 @@ class Table
 
         foreach(Iassign::statementsWithSubmissions($course) as $statement){
 
-            $url = new \moodle_url('/blocks/itpc/pages/statement.php', [
+            $url1 = new \moodle_url('/blocks/itpc/pages/statement.php', [
+                'statementid' => $statement->id,
+            ]);
+
+            $url2 = new \moodle_url('/blocks/itpc/pages/statement_analysis.php', [
                 'statementid' => $statement->id,
             ]);
           
@@ -46,7 +50,7 @@ class Table
             $media = number_format((float) $statement->total/$n, 2, ',', '');
           
             $table->data[] = [
-              "<a href='{$url}'>{$statement->id}</a>",
+              "{$statement->id} <a href='{$url1}'>Analysis 1</a> <br> <a href='{$url2}'>Analysis 2</a>",
               Iassign::getStatementCourse($statement->id),
               Iassign::getStatementName($statement->id),
               $statement->total,
@@ -95,12 +99,7 @@ class Table
 
         return \html_writer::table($table);
     }
-
-    public static function statementDex($statementid){
-        $data = PrepareData::statementDex($statementid);
-        echo '<pre>'; var_dump($data); die();
-    }
-  
+ 
     public static function user($userid){
 
         $data = PrepareData::user($userid);
@@ -132,6 +131,22 @@ class Table
         $table->data = $data_filtered; 
         $table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
+        return \html_writer::table($table);
+    }
+
+    public static function statementAnalysis($statementid){
+        $data = PrepareData::statementAnalysis($statementid);
+        echo "<pre>"; var_dump($data); die();
+
+        $columns = [ 
+            'mtes',
+            'mdes',
+            'dex',
+        ];
+
+        $table = new \html_table();
+        $table->head = $columns;
+        $table->data = $data;
         return \html_writer::table($table);
     }
 }

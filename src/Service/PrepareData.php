@@ -71,7 +71,7 @@ class PrepareData
         return $rows;
     }
 
-    public static function statementDex($statementid){
+    public static function statementAnalysis($statementid){
         $users = Iassign::usersFromStatement($statementid);
 
         $rows = [];
