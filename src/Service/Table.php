@@ -82,6 +82,8 @@ class Table
             'answer',
             'answer_next',
             'diffanswer',
+            'diffanswer_normalized',
+            'difftime_normalized',
             'dt'
         ];
 
@@ -95,7 +97,7 @@ class Table
         }
         
         $table->data = $data_filtered; 
-        $table->align = ['left','left','right','right','right','right','right','right','right','right'];
+        //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
     }
@@ -116,7 +118,10 @@ class Table
             'grade_next',
             'answer',
             'answer_next',
-            'diffanswer'
+            'diffanswer',
+            'diffanswer_normalized',
+            'difftime_normalized',
+            'dt'
         ];
 
         $data_filtered = Utils::filterArrayByKeys($data, $columns);
@@ -129,16 +134,17 @@ class Table
         }
         
         $table->data = $data_filtered; 
-        $table->align = ['left','left','right','right','right','right','right','right','right','right'];
+        //$table->align = ['left','left','right','right','right','right','right','right','right','right'];
 
         return \html_writer::table($table);
     }
 
     public static function statementAnalysis($statementid){
         $data = PrepareData::statementAnalysis($statementid);
-        echo "<pre>"; var_dump($data); die();
+        //echo "<pre>"; var_dump($data); die();
 
         $columns = [ 
+            'userid',
             'mtes',
             'mdes',
             'dex',
