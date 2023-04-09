@@ -14,7 +14,6 @@ use block_itpc\Service\Utils;
 use block_itpc\Service\Table;
 use block_itpc\Service\PrepareData;
 
-
 global $DB;
 // it is better to update
 $DB->delete_records('block_itpc_statement_metrics');
@@ -22,6 +21,7 @@ $DB->delete_records('block_itpc_statement_metrics');
 $courses = Iassign::courses();
 foreach($courses as $course){
     $statements = Iassign::statementsWithSubmissions($course);
+
     foreach($statements as $statement){
 
         $statementid = $statement->id;
@@ -34,6 +34,9 @@ foreach($courses as $course){
                 $obj->mtes = $metric['mtes'];
                 $obj->mdes = $metric['mdes'];
                 $obj->dex  = $metric['dex'];
+                $obj->mtes_normalized = $metric['mtes_normalized'];
+                $obj->mdes_normalized = $metric['mdes_normalized'];
+                $obj->dex_normalized  = $metric['dex_normalized'];
                 return $obj;
             }, 
             $metrics

@@ -126,19 +126,42 @@ class PrepareData
             $times = array_column($lines,'timecreated');
             $tms = (max($times) - min($times))/2;
 
-            //var_dump($times); die();
-
             $rows[] = [
                 'userid'        => $userid,
                 'mtes'          => max(array_column($lines,'difftime')),  // Highest TES
                 'mdes'          => max(array_column($lines,'diffanswer')),  // Highest DES
                 'dex'           => $grade_average/($tms+$n)
             ];
-
         }
+
+        // inserting more data on rows[]
+
+        // get min and max for mtes
+        $mtes = Utils::filterArrayByKeys($rows, ['mtes']);
+        $mtes = array_column($mtes,'mtes');
+        $mtes_min = min($mtes);
+        $mtes_max = max($mtes);
+
+        // get min and max for mtes
+        $mdes = Utils::filterArrayByKeys($rows, ['mdes']);
+        $mdes = array_column($mdes,'mdes');
+        $mdes_min = min($mdes);
+        $mdes_max = max($mdes);
+
+        // get min and max for dex
+        $dex = Utils::filterArrayByKeys($rows, ['dex']);
+        $dex = array_column($dex,'dex');
+        $dex_min = min($dex);
+        $dex_max = max($dex);
+
+        foreach($rows as $key=>$row){
+            $rows[$key]['mtes_normalized'] = ($row['mtes'] - $mtes_min)/($mtes_max-$mtes_min);
+            $rows[$key]['mdes_normalized'] = ($row['mdes'] - $mdes_min)/($mdes_max-$mdes_min);
+            $rows[$key]['dex_normalized'] = ($row['dex'] - $dex_min)/($dex_max-$dex_min);
+        }
+
         return $rows;
     }
-    
 
     public static function user($userid){
 

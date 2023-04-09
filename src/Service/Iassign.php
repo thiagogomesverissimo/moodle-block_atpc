@@ -54,6 +54,7 @@ class Iassign
         return json_decode($results, true);
     }
 
+    // só retorna exercícios com ao menos 10 submissões
     public static function statementsWithSubmissions($course = 0){
         global $DB, $CFG, $OUTPUT;
 
@@ -71,6 +72,7 @@ class Iassign
         }
 
         $query .= " GROUP by {iassign_allsubmissions}.iassign_statementid
+                    HAVING total > 10
                     ORDER BY id ASC";
 
         $results = $DB->get_records_sql($query);

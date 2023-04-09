@@ -141,13 +141,15 @@ class Table
 
     public static function statementAnalysis($statementid){
         $data = PrepareData::statementAnalysis($statementid);
-        //echo "<pre>"; var_dump($data); die();
 
         $columns = [ 
             'userid',
             'mtes',
             'mdes',
             'dex',
+            'mtes_normalized',
+            'mdes_normalized',
+            'dex_normalized',
         ];
 
         $table = new \html_table();

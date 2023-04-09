@@ -10,9 +10,15 @@
         <FIELD NAME="id" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="statementid" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="userid" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+
         <FIELD NAME="mtes" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="mdes" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="dex" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+
+        <FIELD NAME="mtes_normalized" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="mdes_normalized" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="dex_normalized" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+
         <FIELD NAME="type" TYPE="char" NOTNULL="true" SEQUENCE="false" DEFAULT="Iassign" />
       </FIELDS>
       <KEYS>
