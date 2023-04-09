@@ -29,37 +29,11 @@ Tabelas:
 - mdl_iassign_submission
 - mdl_iassign_submission_comment
 
-## Dump do leonidas:
-As tableas do leônidas estão prefixadas com s:
+Reinstalando:
 
-- s_iassign_allsubmissions
-- s_iassign
-- s_iassign_ilm
-- s_iassign_statement
-- s_iassign_submission
+    php admin/cli/uninstall_plugins.php --plugins=block_itpc --run
+    php admin/cli/upgrade.php
 
-Importando tabelas do saw:
-
-    mariadb -uadmin moodle -padmin < ~/Dropbox/dumps/bd_moodle_saw2021_iassign.sql
-    drop table mdl_iassign_allsubmissions;
-    drop table mdl_iassign;
-    drop table mdl_iassign_ilm;
-    drop table mdl_iassign_statement;
-    drop table mdl_iassign_submission;
-
-    rename table s_iassign_allsubmissions to mdl_iassign_allsubmissions; 
-    rename table s_iassign to mdl_iassign;
-    rename table s_iassign_ilm to mdl_iassign_ilm;
-    rename table s_iassign_statement to mdl_iassign_statement;
-    rename table s_iassign_submission to mdl_iassign_submission;
-
-    ou apenas:
-
-    drop table s_iassign_allsubmissions;
-    drop table s_iassign;
-    drop table s_iassign_ilm;
-    drop table s_iassign_statement;
-    drop table s_iassign_submission;
 
 ## Análise da qualidade do enunciado:
 

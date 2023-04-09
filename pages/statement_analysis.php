@@ -32,7 +32,7 @@ $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
 $data = [
-    'table'       => Table::statementAnalysis($statementid),
+    'table' => Table::statementAnalysis($statementid),
 ];
 
 echo $OUTPUT->header();
