@@ -80,7 +80,7 @@ class Iassign
     }
 
     public static function getStatementName($id){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         $query = "SELECT name
                     FROM {iassign_statement}
@@ -90,7 +90,7 @@ class Iassign
     }
 
     public static function getStatementCourse($id){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         $query = "SELECT {iassign}.course
                     FROM {iassign_statement}

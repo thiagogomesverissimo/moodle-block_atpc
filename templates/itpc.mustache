@@ -10,8 +10,25 @@
   <p>Quantidade de exerícicios do Itarefas com submissões: {{statements_with_submissions_total}} </p>
 </div>
 
-Select a course:
-{{{ form }}}
+<div id="grafico" style=""></div>
 
+Select a course:
+
+{{{ form }}}
 {{{ table }}}
+
+<script src="https://cdn.plot.ly/plotly-2.16.4.min.js"></script>
+<script>
+
+  var data = [
+    {
+      x: [ '{{ statements }}' ],
+      y: [ {{ dex_normalized_avg }} ],
+      type: 'bar'
+    }
+  ];
+  Grafico = document.getElementById('grafico');
+  Plotly.newPlot(Grafico, data);
+
+</script>
 

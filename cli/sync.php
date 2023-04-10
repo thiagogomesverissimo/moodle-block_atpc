@@ -15,20 +15,21 @@ use block_itpc\Service\Table;
 use block_itpc\Service\PrepareData;
 
 global $DB;
-// it is better to update
-$DB->delete_records('block_itpc_statement_metrics');
 
 $courses = Iassign::courses();
-foreach($courses as $course){
+foreach($courses as $course=>$courseinfo){
+
     $statements = Iassign::statementsWithSubmissions($course);
 
     foreach($statements as $statement){
 
         $statementid = $statement->id;
         $metrics = PrepareData::statementAnalysis($statementid);
+        
         $metrics_as_objects = array_map(
-            function($metric) use ($statementid) {
+            function($metric) use ($statementid, $course) {
                 $obj = new stdClass;
+                $obj->courseid = $course;
                 $obj->statementid = $statementid;
                 $obj->userid = $metric['userid'];
                 $obj->mtes = $metric['mtes'];
@@ -41,8 +42,9 @@ foreach($courses as $course){
             }, 
             $metrics
         );
+
+        $DB->delete_records('block_itpc_statement_metrics',[ 'statementid' => $statementid, 'courseid' => $course ]);
         $DB->insert_records('block_itpc_statement_metrics', $metrics_as_objects);
-    
     }
 }
 

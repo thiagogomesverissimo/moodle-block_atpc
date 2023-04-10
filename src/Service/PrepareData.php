@@ -77,14 +77,16 @@ class PrepareData
         // inserting more data on rows[]
 
         // get min and max from diffanswer
-        $diffanswer = Utils::filterArrayByKeys($rows, ['diffanswer']);
-        $diffanswer = array_column($diffanswer,'diffanswer');
+        //$diffanswer = Utils::filterArrayByKeys($rows, ['diffanswer']);
+        //$diffanswer = array_column($diffanswer,'diffanswer');
+        $diffanswer = array_column($rows,'diffanswer');
         $diffanswer_min = min($diffanswer);
         $diffanswer_max = max($diffanswer);
 
         // get min and max from difftime
-        $difftime = Utils::filterArrayByKeys($rows, ['difftime']);
-        $difftime = array_column($difftime,'difftime');
+        //$difftime = Utils::filterArrayByKeys($rows, ['difftime']);
+        //$difftime = array_column($difftime,'difftime');
+        $difftime = array_column($rows,'difftime');
         $difftime_min = min($difftime);
         $difftime_max = max($difftime);
 
@@ -137,20 +139,23 @@ class PrepareData
         // inserting more data on rows[]
 
         // get min and max for mtes
-        $mtes = Utils::filterArrayByKeys($rows, ['mtes']);
-        $mtes = array_column($mtes,'mtes');
+        //$mtes = Utils::filterArrayByKeys($rows, ['mtes']);
+        //$mtes = array_column($mtes,'mtes');
+        $mtes = array_column($rows,'mtes');
         $mtes_min = min($mtes);
         $mtes_max = max($mtes);
 
         // get min and max for mtes
-        $mdes = Utils::filterArrayByKeys($rows, ['mdes']);
-        $mdes = array_column($mdes,'mdes');
+        //$mdes = Utils::filterArrayByKeys($rows, ['mdes']);
+        //$mdes = array_column($mdes,'mdes');
+        $mdes = array_column($rows,'mdes');
         $mdes_min = min($mdes);
         $mdes_max = max($mdes);
 
         // get min and max for dex
-        $dex = Utils::filterArrayByKeys($rows, ['dex']);
-        $dex = array_column($dex,'dex');
+        //$dex = Utils::filterArrayByKeys($rows, ['dex']);
+        //$dex = array_column($dex,'dex');
+        $dex = array_column($rows,'dex');
         $dex_min = min($dex);
         $dex_max = max($dex);
 
@@ -161,6 +166,28 @@ class PrepareData
         }
 
         return $rows;
+    }
+
+    public static function courseMetrics($courseid = 0, $statementid = 0){
+        global $DB;
+        
+        $query = "SELECT statementid, courseid, 
+                    AVG(dex_normalized) AS dex_normalized_avg,
+                    AVG(mdes_normalized) AS mdes_normalized_avg,
+                    AVG(mtes_normalized) AS mtes_normalized_avg
+                    FROM {block_itpc_statement_metrics} ";
+
+        if( $courseid != 0 and $statementid != 0 ) {
+            $query .= " WHERE courseid = {$courseid} AND statementid = {$statementid} ";
+        } elseif( $courseid != 0 and $statementid == 0 ) {
+            $query .= " WHERE courseid = {$courseid} ";
+        } elseif( $courseid == 0 and $statementid != 0 ) {
+            $query .= " WHERE statementid = {$statementid} ";
+        }
+
+        $query .= " GROUP BY statementid";
+        $results = json_encode($DB->get_records_sql($query));
+        return json_decode($results, true);
     }
 
     public static function user($userid){
@@ -225,14 +252,16 @@ class PrepareData
         // inserting more data on rows[]
 
         // get min and max from diffanswer
-        $diffanswer = Utils::filterArrayByKeys($rows, ['diffanswer']);
-        $diffanswer = array_column($diffanswer,'diffanswer');
+        //$diffanswer = Utils::filterArrayByKeys($rows, ['diffanswer']);
+        //$diffanswer = array_column($diffanswer,'diffanswer');
+        $diffanswer = array_column($rows,'diffanswer');
         $diffanswer_min = min($diffanswer);
         $diffanswer_max = max($diffanswer);
 
         // get min and max from difftime
-        $difftime = Utils::filterArrayByKeys($rows, ['difftime']);
-        $difftime = array_column($difftime,'difftime');
+        //$difftime = Utils::filterArrayByKeys($rows, ['difftime']);
+        //$difftime = array_column($difftime,'difftime');
+        $difftime = array_column($rows,'difftime');
         $difftime_min = min($difftime);
         $difftime_max = max($difftime);
 

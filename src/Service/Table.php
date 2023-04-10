@@ -22,6 +22,7 @@ class Table
         $table->head = [ 
             'statement id',
             'course id',
+            'dex',
             'Enunciado',
             'Quantidade de submissões',
             'Quantidade de usuários',
@@ -45,6 +46,10 @@ class Table
             // usuário com maior número de submissões
             $max = max(array_column($submissions, 'total'));
             $mediana = Utils::median(array_column($submissions, 'total'));
+
+            // courseMetrics($courseid = 0, $statementid = 0)
+            //$metrics = PrepareData::courseMetrics($course, $statement->id);
+            //$dex = array_column($metrics,'dex_normalized_avg');
           
             $n = count($submissions);
             $media = number_format((float) $statement->total/$n, 2, ',', '');
@@ -52,6 +57,7 @@ class Table
             $table->data[] = [
               "{$statement->id} <a href='{$url1}'>Analysis 1</a> <br> <a href='{$url2}'>Analysis 2</a>",
               Iassign::getStatementCourse($statement->id),
+              //$dex,
               Iassign::getStatementName($statement->id),
               $statement->total,
               $n,
@@ -60,7 +66,7 @@ class Table
               $max
             ];
           }
-          $table->align = ['left','left','right','right','right','right','right'];
+          //$table->align = ['left','left','right','right','right','right','right'];
 
           return \html_writer::table($table);
     }

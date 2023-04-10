@@ -7,7 +7,7 @@
 
     <TABLE NAME="block_itpc_statement_metrics" COMMENT="table to store metrics for statements">
       <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="statementid" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="userid" TYPE="float" NOTNULL="true" SEQUENCE="false" />
 
@@ -22,7 +22,7 @@
         <FIELD NAME="type" TYPE="char" NOTNULL="true" SEQUENCE="false" DEFAULT="Iassign" />
       </FIELDS>
       <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="primary" TYPE="primary" FIELDS="courseid,statementid,userid"/>
       </KEYS>
     </TABLE>
    
