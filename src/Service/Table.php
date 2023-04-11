@@ -16,59 +16,49 @@ use block_itpc\Service\Utils;
 class Table
 {
     public static function statements($course = 0){
+        global $DB;
+
+        $metrics = PrepareData::courseMetrics($course);
 
         $table = new \html_table();
 
         $table->head = [ 
-            'statement id',
-            'course id',
-            'dex',
+            'Statement id',
             'Enunciado',
+            'course id',
             'Quantidade de submissões',
             'Quantidade de usuários',
             'Média de submissões por usuários',
             'Mediana',
-            'Máximo de submissões por um único usuário'
+            'Máximo de submissões por um único usuário',
+            'DEX médio',
+            'MDEX médio',
+            'TES Médio'
         ];
 
-        foreach(Iassign::statementsWithSubmissions($course) as $statement){
+        $metrics_table = array_map(
+            function($metric) {
+                $url1 = new \moodle_url('/blocks/itpc/pages/statement.php', [
+                    'statementid' => $metric['statementid'],
+                ]);
+    
+                $url2 = new \moodle_url('/blocks/itpc/pages/statement_analysis.php', [
+                    'statementid' => $metric['statementid'],
+                ]);
 
-            $url1 = new \moodle_url('/blocks/itpc/pages/statement.php', [
-                'statementid' => $statement->id,
-            ]);
+                $metric['statementid'] = "{$metric['statementid']} <a href='{$url1}'>Analysis 1</a> <br> <a href='{$url2}'>Analysis 2</a>";
 
-            $url2 = new \moodle_url('/blocks/itpc/pages/statement_analysis.php', [
-                'statementid' => $statement->id,
-            ]);
-          
-            $submissions = Iassign::numberOfSubmissionsFromStatement($statement->id);
-          
-            // usuário com maior número de submissões
-            $max = max(array_column($submissions, 'total'));
-            $mediana = Utils::median(array_column($submissions, 'total'));
+                $metric['avgsubmissionsbyuser'] = number_format($metric['avgsubmissionsbyuser'], 2, '.', '');
+                $metric['median'] = number_format($metric['median'], 2, '.', '');
+                $metric['dex_normalized_avg'] = number_format($metric['dex_normalized_avg'], 2, '.', '');
+                $metric['mdes_normalized_avg'] = number_format($metric['mdes_normalized_avg'], 2, '.', '');
+                $metric['mtes_normalized_avg'] = number_format($metric['mtes_normalized_avg'], 2, '.', '');
+                return $metric;
+            },$metrics);
 
-            // courseMetrics($courseid = 0, $statementid = 0)
-            //$metrics = PrepareData::courseMetrics($course, $statement->id);
-            //$dex = array_column($metrics,'dex_normalized_avg');
-          
-            $n = count($submissions);
-            $media = number_format((float) $statement->total/$n, 2, ',', '');
-          
-            $table->data[] = [
-              "{$statement->id} <a href='{$url1}'>Analysis 1</a> <br> <a href='{$url2}'>Analysis 2</a>",
-              Iassign::getStatementCourse($statement->id),
-              //$dex,
-              Iassign::getStatementName($statement->id),
-              $statement->total,
-              $n,
-              $media,
-              $mediana,
-              $max
-            ];
-          }
-          //$table->align = ['left','left','right','right','right','right','right'];
+        $table->data = $metrics_table;
 
-          return \html_writer::table($table);
+        return \html_writer::table($table);
     }
 
     public static function statement($statementid){
@@ -146,6 +136,48 @@ class Table
     }
 
     public static function statementAnalysis($statementid){
+        die('arrumar');
+        $metrics = PrepareData::courseMetrics($courseid = 0, $statementid = 5649);
+
+        $table = new \html_table();
+
+        $table->head = [ 
+            'Statement id',
+            'Enunciado',
+            'course id',
+            'Quantidade de submissões',
+            'Quantidade de usuários',
+            'Média de submissões por usuários',
+            'Mediana',
+            'Máximo de submissões por um único usuário',
+            'DEX médio',
+            'MDEX médio',
+            'TES Médio'
+        ];
+
+        $metrics_table = array_map(
+            function($metric) {
+                $url1 = new \moodle_url('/blocks/itpc/pages/statement.php', [
+                    'statementid' => $metric['statementid'],
+                ]);
+    
+                $url2 = new \moodle_url('/blocks/itpc/pages/statement_analysis.php', [
+                    'statementid' => $metric['statementid'],
+                ]);
+
+                $metric['statementid'] = "{$metric['statementid']} <a href='{$url1}'>Analysis 1</a> <br> <a href='{$url2}'>Analysis 2</a>";
+
+                $metric['avgsubmissionsbyuser'] = number_format($metric['avgsubmissionsbyuser'], 2, '.', '');
+                $metric['median'] = number_format($metric['median'], 2, '.', '');
+                $metric['dex_normalized_avg'] = number_format($metric['dex_normalized_avg'], 2, '.', '');
+                $metric['mdes_normalized_avg'] = number_format($metric['mdes_normalized_avg'], 2, '.', '');
+                $metric['mtes_normalized_avg'] = number_format($metric['mtes_normalized_avg'], 2, '.', '');
+                return $metric;
+            },$metrics);
+
+        $table->data = $metrics_table;
+
+        /*
         $data = PrepareData::statementAnalysis($statementid);
 
         $columns = [ 
@@ -161,6 +193,7 @@ class Table
         $table = new \html_table();
         $table->head = $columns;
         $table->data = $data;
+        */
         return \html_writer::table($table);
     }
 }

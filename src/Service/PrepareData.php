@@ -171,13 +171,21 @@ class PrepareData
     public static function courseMetrics($courseid = 0, $statementid = 0){
         global $DB;
         
-        $query = "SELECT statementid, courseid, 
+        $query = "SELECT statementid, 
+                         statement, 
+                         courseid,
+                         numberofsubmissions,
+                         numberofusers,
+                         avgsubmissionsbyuser,
+                         median,
+                         max, 
                     AVG(dex_normalized) AS dex_normalized_avg,
                     AVG(mdes_normalized) AS mdes_normalized_avg,
                     AVG(mtes_normalized) AS mtes_normalized_avg
                     FROM {block_itpc_statement_metrics} ";
 
         if( $courseid != 0 and $statementid != 0 ) {
+            
             $query .= " WHERE courseid = {$courseid} AND statementid = {$statementid} ";
         } elseif( $courseid != 0 and $statementid == 0 ) {
             $query .= " WHERE courseid = {$courseid} ";

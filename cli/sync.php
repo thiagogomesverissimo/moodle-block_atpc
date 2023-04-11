@@ -23,14 +23,29 @@ foreach($courses as $course=>$courseinfo){
 
     foreach($statements as $statement){
 
-        $statementid = $statement->id;
-        $metrics = PrepareData::statementAnalysis($statementid);
+        $metrics = PrepareData::statementAnalysis($statement->id);
         
         $metrics_as_objects = array_map(
-            function($metric) use ($statementid, $course) {
+            function($metric) use ($statement, $course) {
+
+                $statementtext = Iassign::getStatementName($statement->id);
+                $submissionsbyuser = Iassign::numberOfSubmissionsByUser($statement->id);
+                $numberofusers = count($submissionsbyuser);
+                $numberofsubmissions = $statement->total;
+                $avgsubmissionsbyuser = (float) $numberofsubmissions/$numberofusers;
+
+                $max = max(array_column($submissionsbyuser, 'total'));
+                $median = Utils::median(array_column($submissionsbyuser, 'total'));
+
                 $obj = new stdClass;
                 $obj->courseid = $course;
-                $obj->statementid = $statementid;
+                $obj->statementid = $statement->id;
+                $obj->statement = $statementtext;
+                $obj->numberofusers = $numberofusers;
+                $obj->numberofsubmissions = $numberofsubmissions;
+                $obj->avgsubmissionsbyuser = $avgsubmissionsbyuser;
+                $obj->max = $max;
+                $obj->median = $median;
                 $obj->userid = $metric['userid'];
                 $obj->mtes = $metric['mtes'];
                 $obj->mdes = $metric['mdes'];
@@ -43,7 +58,7 @@ foreach($courses as $course=>$courseinfo){
             $metrics
         );
 
-        $DB->delete_records('block_itpc_statement_metrics',[ 'statementid' => $statementid, 'courseid' => $course ]);
+        $DB->delete_records('block_itpc_statement_metrics',[ 'statementid' => $statement->id, 'courseid' => $course ]);
         $DB->insert_records('block_itpc_statement_metrics', $metrics_as_objects);
     }
 }

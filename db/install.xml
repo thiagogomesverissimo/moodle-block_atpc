@@ -11,6 +11,14 @@
         <FIELD NAME="statementid" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="userid" TYPE="float" NOTNULL="true" SEQUENCE="false" />
 
+        <FIELD NAME="statement" TYPE="text" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="numberofusers" TYPE="int" LENGTH="8" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="numberofsubmissions" TYPE="int" LENGTH="8" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="max" TYPE="int" LENGTH="8" NOTNULL="true" SEQUENCE="false" />
+
+        <FIELD NAME="avgsubmissionsbyuser" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="median" TYPE="float" NOTNULL="true" SEQUENCE="false" />     
+        
         <FIELD NAME="mtes" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="mdes" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="dex" TYPE="float" NOTNULL="true" SEQUENCE="false" />

@@ -13,7 +13,7 @@ class Iassign
 {
 
     public static function numberOfTasks($course = 0){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         $query = "SELECT count(*) AS total FROM {iassign}";
 
@@ -27,7 +27,7 @@ class Iassign
     }
 
     public static function numberOfStatements($course = 0){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         $query = "SELECT count(*) AS total FROM {iassign_statement}";
 
@@ -42,8 +42,8 @@ class Iassign
         return $result->total;
     }
 
-    public static function numberOfSubmissionsFromStatement($statementid){
-        global $DB, $CFG, $OUTPUT;
+    public static function numberOfSubmissionsByUser($statementid){
+        global $DB;
 
         $query = "SELECT userid,
                          COUNT(*) AS total 
@@ -56,7 +56,7 @@ class Iassign
 
     // só retorna exercícios com ao menos 10 submissões
     public static function statementsWithSubmissions($course = 0){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         $query = "SELECT iassign_statementid AS id,
                   COUNT(*) as total 
@@ -100,47 +100,8 @@ class Iassign
         if($result) return $result->course;
     }
 
-    ######### falta conferir
-
-    public static function allSubmissionsFromUserAndStatement($statementid, $userid){
-        global $DB, $CFG, $OUTPUT;
-
-        $query = "SELECT *
-                         FROM {iassign_allsubmissions}
-                         WHERE iassign_statementid = {$statementid}
-                         AND grade >= 0
-                         AND userid  = {$userid}";
-        $results = json_encode($DB->get_records_sql($query));
-        return json_decode($results, true);
-    }
-
-    public static function usersFromStatement($statementid){
-        global $DB, $CFG, $OUTPUT;
-
-        $query = "SELECT UNIQUE(userid)
-                         FROM {iassign_allsubmissions}
-                         WHERE iassign_statementid = {$statementid}
-                         AND grade >= 0
-                         GROUP BY userid";
-        $results = json_encode($DB->get_records_sql($query));
-        $array = json_decode($results, true);
-        return array_column($array,'userid');
-    }
-
-    public static function statementsFromUser($userid){
-        global $DB, $CFG, $OUTPUT;
-
-        $query = "SELECT UNIQUE(iassign_statementid)
-                         FROM {iassign_allsubmissions}
-                         WHERE userid = {$userid}
-                         GROUP BY iassign_statementid";
-        $results = json_encode($DB->get_records_sql($query));
-        $array = json_decode($results, true);
-        return array_column($array,'iassign_statementid');
-    }
-
     public static function courses(){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         // filtering only statements (and courses) with at least 10 submissions
         $statement_ids = "SELECT iassign_statementid
@@ -169,9 +130,50 @@ class Iassign
 
         return $courses;
     }
+    
+    ######### falta conferir
+
+    public static function allSubmissionsFromUserAndStatement($statementid, $userid){
+        global $DB;
+
+        $query = "SELECT *
+                         FROM {iassign_allsubmissions}
+                         WHERE iassign_statementid = {$statementid}
+                         AND grade >= 0
+                         AND userid  = {$userid}";
+        $results = json_encode($DB->get_records_sql($query));
+        return json_decode($results, true);
+    }
+
+    public static function usersFromStatement($statementid){
+        global $DB;
+
+        $query = "SELECT UNIQUE(userid)
+                         FROM {iassign_allsubmissions}
+                         WHERE iassign_statementid = {$statementid}
+                         AND grade >= 0
+                         GROUP BY userid";
+        $results = json_encode($DB->get_records_sql($query));
+        $array = json_decode($results, true);
+        return array_column($array,'userid');
+    }
+
+    public static function statementsFromUser($userid){
+        global $DB;
+
+        $query = "SELECT UNIQUE(iassign_statementid)
+                         FROM {iassign_allsubmissions}
+                         WHERE userid = {$userid}
+                         GROUP BY iassign_statementid";
+        $results = json_encode($DB->get_records_sql($query));
+        $array = json_decode($results, true);
+        return array_column($array,'iassign_statementid');
+    }
+
+
 
     public static function getUserName($userid){
-        global $DB, $CFG, $OUTPUT;
+        global $DB;
 
         $user = $DB->get_record("user", ["id" => $userid]);
         return "{$user->firstname} {$user->lastname}";
