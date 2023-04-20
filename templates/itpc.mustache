@@ -10,7 +10,9 @@
   <p>Quantidade de exerícicios do Itarefas com submissões: {{statements_with_submissions_total}} </p>
 </div>
 
-<div id="grafico" style=""></div>
+<div id="dexgraph" style=""></div>
+<div id="mdesgraph" style=""></div>
+<div id="mtesgraph" style=""></div>
 
 Select a course:
 
@@ -20,15 +22,63 @@ Select a course:
 <script src="https://cdn.plot.ly/plotly-2.16.4.min.js"></script>
 <script>
 
+  // Gráfico do DEX
   var data = [
     {
-      x: [ '{{ statements }}' ],
+      x: [ {{{ statements_dex }}} ],
       y: [ {{ dex_normalized_avg }} ],
+      //text: [ {{{ statements }}} ],
       type: 'bar'
     }
   ];
-  Grafico = document.getElementById('grafico');
-  Plotly.newPlot(Grafico, data);
+
+  var layout = {
+    title: 'Exercícios dificeis',
+    showlegend: false,
+
+    xaxis: {
+      tickangle: -45
+    },
+
+    yaxis: {
+      title: 'DEX',
+      zeroline: false,
+      gridwidth: 2
+    },
+    bargap :0.05
+  };
+
+  Grafico = document.getElementById('dexgraph');
+  Plotly.newPlot(Grafico, data, layout);
+
+  // Gráfico do MDES
+  var data = [
+    {
+      x: [ {{{ statements_mdes }}} ],
+      y: [ {{ mdes_normalized_avg }} ],
+      //text: [ {{{ statements }}} ],
+      type: 'bar'
+    }
+  ];
+
+  var layout = {
+    title: 'mdes_normalized_avg',
+    showlegend: false,
+
+    xaxis: {
+      tickangle: -45
+    },
+
+    yaxis: {
+      title: 'mdes',
+      zeroline: false,
+      gridwidth: 2
+    },
+    bargap :0.05
+  };
+
+  Grafico = document.getElementById('mdesgraph');
+  Plotly.newPlot(Grafico, data, layout);
 
 </script>
 

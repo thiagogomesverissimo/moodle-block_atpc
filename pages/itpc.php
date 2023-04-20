@@ -38,29 +38,46 @@ if(!empty($request) and !is_null($request)){
   $course = 0;
 }
 
-// statementFromDatabase
-$metrics = PrepareData::courseMetrics(472);
-
+// statements From Database to DEX
+$metrics = PrepareData::courseMetrics($course);
 $statementsid = array_column($metrics,'statementid');
-
 $statements = array_map(
   function($statementid) {
     return Iassign::getStatementName($statementid);
   },$statementsid
 );
-
+$statements_dex = implode("', '", $statements);
 $dex_normalized_avg = array_column($metrics,'dex_normalized_avg');
+
+// statements From Database to MDES
+$metrics = PrepareData::courseMetrics($course, 0, 'mdes_normalized_avg');
+$statementsid = array_column($metrics,'statementid');
+$statements = array_map(
+  function($statementid) {
+    return Iassign::getStatementName($statementid);
+  },$statementsid
+);
+$statements_mdes = implode("', '", $statements);
 $mdes_normalized_avg = array_column($metrics,'mdes_normalized_avg');
-$mtes_normalized_avg = array_column($metrics,'mtes_normalized_avg');
+
+
+
+
+//$mtes_normalized_avg = array_column($metrics,'mtes_normalized_avg');
 
 //var_dump(implode("', '", $statements));die();
 //$diffanswer = Utils::filterArrayByKeys($rows, ['diffanswer']);
 //$diffanswer = array_column($diffanswer,'diffanswer');
 
+
+
 // array data sent to template
 $data = [
-  'statements' => implode("', '", $statements),
+  'statements_dex' => "'$statements_dex'",
+  'statements_mdes' => "'$statements_mdes'",
   'dex_normalized_avg' => implode(', ', $dex_normalized_avg),
+  'mdes_normalized_avg' => implode(', ', $mdes_normalized_avg),
+  'mtes_normalized_avg' => implode(', ', $mtes_normalized_avg),
   'number_of_statements'  => Iassign::numberOfStatements($course),
   'number_of_tasks'       => Iassign::numberOfTasks($course),
   'statements_with_submissions_total' => count(Iassign::statementsWithSubmissions($course)),

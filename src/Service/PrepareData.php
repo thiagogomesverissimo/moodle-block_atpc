@@ -168,7 +168,7 @@ class PrepareData
         return $rows;
     }
 
-    public static function courseMetrics($courseid = 0, $statementid = 0){
+    public static function courseMetrics($courseid = 0, $statementid = 0, $orderby = 'dex_normalized_avg'){
         global $DB;
         
         $query = "SELECT statementid, 
@@ -194,6 +194,8 @@ class PrepareData
         }
 
         $query .= " GROUP BY statementid";
+        $query .= " ORDER BY {$orderby} DESC";
+        
         $results = json_encode($DB->get_records_sql($query));
         return json_decode($results, true);
     }

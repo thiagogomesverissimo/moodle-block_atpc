@@ -32,8 +32,8 @@ class Table
             'Mediana',
             'Máximo de submissões por um único usuário',
             'DEX médio',
-            'MDEX médio',
-            'TES Médio'
+            'MDES médio',
+            'MTES Médio'
         ];
 
         $metrics_table = array_map(
@@ -151,8 +151,8 @@ class Table
             'Mediana',
             'Máximo de submissões por um único usuário',
             'DEX médio',
-            'MDEX médio',
-            'TES Médio'
+            'MDES médio',
+            'MTES Médio'
         ];
 
         $metrics_table = array_map(
