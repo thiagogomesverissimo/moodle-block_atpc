@@ -28,21 +28,27 @@ foreach($courses as $course=>$courseinfo){
         $metrics_as_objects = array_map(
             function($metric) use ($statement, $course) {
 
+                echo "Synchronization statementid {$statement->id}, userid {$metric['userid']} and course: {$course}\n";
+
                 $statementtext = Iassign::getStatementName($statement->id);
-                $submissionsbyuser = Iassign::numberOfSubmissionsByUser($statement->id);
-                $numberofusers = count($submissionsbyuser);
+
+                $submissionsbyuser = Iassign::numberOfSubmissionsByUser($statement->id, $metric['userid']);
+
+                $submissionsgroupedbyuser = Iassign::numberOfSubmissionsGroupedByUser($statement->id);
+                $max = max(array_column($submissionsgroupedbyuser, 'total'));
+
+                $numberofusers = count($submissionsgroupedbyuser);
                 $numberofsubmissions = $statement->total;
                 $avgsubmissionsbyuser = (float) $numberofsubmissions/$numberofusers;
 
-                $max = max(array_column($submissionsbyuser, 'total'));
-                $median = Utils::median(array_column($submissionsbyuser, 'total'));
+                $median = Utils::median(array_column($submissionsgroupedbyuser, 'total'));
 
                 $obj = new stdClass;
                 $obj->courseid = $course;
                 $obj->statementid = $statement->id;
                 $obj->statement = $statementtext;
                 $obj->numberofusers = $numberofusers;
-                $obj->numberofsubmissions = $numberofsubmissions;
+                $obj->numberofsubmissions = $submissionsbyuser;
                 $obj->avgsubmissionsbyuser = $avgsubmissionsbyuser;
                 $obj->max = $max;
                 $obj->median = $median;

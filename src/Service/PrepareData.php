@@ -139,33 +139,55 @@ class PrepareData
         // inserting more data on rows[]
 
         // get min and max for mtes
-        //$mtes = Utils::filterArrayByKeys($rows, ['mtes']);
-        //$mtes = array_column($mtes,'mtes');
         $mtes = array_column($rows,'mtes');
         $mtes_min = min($mtes);
-        $mtes_max = max($mtes);
+        $mtes_diff = max($mtes) - min($mtes);
 
         // get min and max for mtes
-        //$mdes = Utils::filterArrayByKeys($rows, ['mdes']);
-        //$mdes = array_column($mdes,'mdes');
         $mdes = array_column($rows,'mdes');
         $mdes_min = min($mdes);
-        $mdes_max = max($mdes);
+        $mdes_diff = max($mdes) - min($mdes);
 
         // get min and max for dex
-        //$dex = Utils::filterArrayByKeys($rows, ['dex']);
-        //$dex = array_column($dex,'dex');
         $dex = array_column($rows,'dex');
         $dex_min = min($dex);
-        $dex_max = max($dex);
+        $dex_diff = max($dex) - min($dex);
 
         foreach($rows as $key=>$row){
-            $rows[$key]['mtes_normalized'] = ($row['mtes'] - $mtes_min)/($mtes_max-$mtes_min);
-            $rows[$key]['mdes_normalized'] = ($row['mdes'] - $mdes_min)/($mdes_max-$mdes_min);
-            $rows[$key]['dex_normalized'] = ($row['dex'] - $dex_min)/($dex_max-$dex_min);
+            $rows[$key]['mtes_normalized'] = $mtes_diff==0 ? 0: ($row['mtes'] - $mtes_min)/$mtes_diff;
+            $rows[$key]['mdes_normalized'] = $mdes_diff==0 ? 0: ($row['mdes'] - $mdes_min)/$mdes_diff;
+            $rows[$key]['dex_normalized']  = $dex_diff ==0 ? 0: ($row['dex'] - $dex_min)/$dex_diff;
+        }
+        return $rows;
+    }
+
+    public static function metrics($courseid = 0, $statementid = 0, $orderby = 'dex_normalized'){
+        global $DB;
+        
+        $query = "SELECT userid,
+                         numberofsubmissions
+      /*                   numberofusers,
+                         avgsubmissionsbyuser,
+                         median,
+                         max, 
+                         dex_normalized,
+                         mdes_normalized,
+                         mtes_normalized*/
+                    FROM {block_itpc_statement_metrics} ";
+
+        if( $courseid != 0 and $statementid != 0 ) {
+            $query .= " WHERE courseid = {$courseid} AND statementid = {$statementid} ";
+        } elseif( $courseid != 0 and $statementid == 0 ) {
+            $query .= " WHERE courseid = {$courseid} ";
+        } elseif( $courseid == 0 and $statementid != 0 ) {
+            $query .= " WHERE statementid = {$statementid} ";
         }
 
-        return $rows;
+        $query .= " ORDER BY {$orderby} DESC";
+        
+        $results = json_encode($DB->get_records_sql($query));
+        $array = json_decode($results, true);
+        return $array;
     }
 
     public static function courseMetrics($courseid = 0, $statementid = 0, $orderby = 'dex_normalized_avg'){

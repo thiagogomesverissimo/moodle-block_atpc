@@ -38,43 +38,50 @@ if(!empty($request) and !is_null($request)){
   $course = 0;
 }
 
-// statements From Database to DEX
+// statements from Database to DEX
 $metrics = PrepareData::courseMetrics($course);
 $statementsid = array_column($metrics,'statementid');
 $statements = array_map(
   function($statementid) {
-    return Iassign::getStatementName($statementid);
+    $statementname = Iassign::getStatementName($statementid);
+    $course = Iassign::getStatementCourse($statementid);
+    return "Course {$course} {$statementname}";
   },$statementsid
 );
 $statements_dex = implode("', '", $statements);
 $dex_normalized_avg = array_column($metrics,'dex_normalized_avg');
 
-// statements From Database to MDES
+// statements from Database to MDES
 $metrics = PrepareData::courseMetrics($course, 0, 'mdes_normalized_avg');
 $statementsid = array_column($metrics,'statementid');
 $statements = array_map(
   function($statementid) {
-    return Iassign::getStatementName($statementid);
+    $statementname = Iassign::getStatementName($statementid);
+    $course = Iassign::getStatementCourse($statementid);
+    return "Course {$course} {$statementname}";
   },$statementsid
 );
 $statements_mdes = implode("', '", $statements);
 $mdes_normalized_avg = array_column($metrics,'mdes_normalized_avg');
 
-
-
-
-//$mtes_normalized_avg = array_column($metrics,'mtes_normalized_avg');
-
-//var_dump(implode("', '", $statements));die();
-//$diffanswer = Utils::filterArrayByKeys($rows, ['diffanswer']);
-//$diffanswer = array_column($diffanswer,'diffanswer');
-
-
+// statements from Database to MTES
+$metrics = PrepareData::courseMetrics($course, 0, 'mtes_normalized_avg');
+$statementsid = array_column($metrics,'statementid');
+$statements = array_map(
+  function($statementid) {
+    $statementname = Iassign::getStatementName($statementid);
+    $course = Iassign::getStatementCourse($statementid);
+    return "Course {$course} {$statementname}";
+  },$statementsid
+);
+$statements_mtes = implode("', '", $statements);
+$mtes_normalized_avg = array_column($metrics,'mtes_normalized_avg');
 
 // array data sent to template
 $data = [
   'statements_dex' => "'$statements_dex'",
   'statements_mdes' => "'$statements_mdes'",
+  'statements_mtes' => "'$statements_mtes'",
   'dex_normalized_avg' => implode(', ', $dex_normalized_avg),
   'mdes_normalized_avg' => implode(', ', $mdes_normalized_avg),
   'mtes_normalized_avg' => implode(', ', $mtes_normalized_avg),

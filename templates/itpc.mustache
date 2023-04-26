@@ -20,6 +20,7 @@ Select a course:
 {{{ table }}}
 
 <script src="https://cdn.plot.ly/plotly-2.16.4.min.js"></script>
+
 <script>
 
   // Gráfico do DEX
@@ -78,6 +79,35 @@ Select a course:
   };
 
   Grafico = document.getElementById('mdesgraph');
+  Plotly.newPlot(Grafico, data, layout);
+
+  // Gráfico do MTES
+  var data = [
+    {
+      x: [ {{{ statements_mtes }}} ],
+      y: [ {{ mtes_normalized_avg }} ],
+      //text: [ {{{ statements }}} ],
+      type: 'bar'
+    }
+  ];
+
+  var layout = {
+    title: 'mtes_normalized_avg',
+    showlegend: false,
+
+    xaxis: {
+      tickangle: -45
+    },
+
+    yaxis: {
+      title: 'mtes',
+      zeroline: false,
+      gridwidth: 2
+    },
+    bargap :0.05
+  };
+
+  Grafico = document.getElementById('mtesgraph');
   Plotly.newPlot(Grafico, data, layout);
 
 </script>

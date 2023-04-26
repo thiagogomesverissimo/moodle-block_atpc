@@ -42,7 +42,14 @@ class Iassign
         return $result->total;
     }
 
-    public static function numberOfSubmissionsByUser($statementid){
+    /**
+     *  return a array of arrays like:
+     * [
+     *   [ "userid" => 9693, "total" =>  2],
+     *   [ "userid" => 9694, "total" =>  8],
+     * ]
+     **/
+    public static function numberOfSubmissionsGroupedByUser($statementid){
         global $DB;
 
         $query = "SELECT userid,
@@ -51,7 +58,20 @@ class Iassign
                          WHERE iassign_statementid = {$statementid} 
                          GROUP BY userid";
         $results = json_encode($DB->get_records_sql($query));
-        return json_decode($results, true);
+        $array = json_decode($results, true);
+        return $array;
+    }
+
+    public static function numberOfSubmissionsByUser($statementid, $userid){
+        global $DB;
+
+        $query = "SELECT COUNT(*) AS total 
+                         FROM {iassign_allsubmissions}
+                         WHERE iassign_statementid = {$statementid} 
+                           AND userid = {$userid}";
+        $obj = $DB->get_record_sql($query);
+        if($obj) return $obj->total;
+        return 0;
     }
 
     // só retorna exercícios com ao menos 10 submissões
