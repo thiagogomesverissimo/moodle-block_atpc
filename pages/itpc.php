@@ -51,20 +51,7 @@ $statements = array_map(
 $statements_dex = implode("', '", $statements);
 $dex_normalized_avg = array_column($metrics,'dex_normalized_avg');
 $statements_dex_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
-$statements_dex_last3 = count($statements) > 6 ? array_slice($statements,-3): ['','',''];
-
-// statements from Database to MDES
-$metrics = PrepareData::courseMetrics($course, 0, 'mdes_normalized_avg');
-$statementsid = array_column($metrics,'statementid');
-$statements = array_map(
-  function($statementid) {
-    $statementname = Iassign::getStatementName($statementid);
-    $course = Iassign::getStatementCourse($statementid);
-    return "Course {$course} {$statementname}";
-  },$statementsid
-);
-$statements_mdes = implode("', '", $statements);
-$mdes_normalized_avg = array_column($metrics,'mdes_normalized_avg');
+$statements_dex_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
 
 // statements from Database to MTES
 $metrics = PrepareData::courseMetrics($course, 0, 'mtes_normalized_avg');
@@ -78,14 +65,37 @@ $statements = array_map(
 );
 $statements_mtes = implode("', '", $statements);
 $mtes_normalized_avg = array_column($metrics,'mtes_normalized_avg');
+$statements_mtes_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
+$statements_mtes_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
+
+// statements from Database to MDES
+$metrics = PrepareData::courseMetrics($course, 0, 'mdes_normalized_avg');
+$statementsid = array_column($metrics,'statementid');
+$statements = array_map(
+  function($statementid) {
+    $statementname = Iassign::getStatementName($statementid);
+    $course = Iassign::getStatementCourse($statementid);
+    return "Course {$course} {$statementname}";
+  },$statementsid
+);
+$statements_mdes = implode("', '", $statements);
+$mdes_normalized_avg = array_column($metrics,'mdes_normalized_avg');
+$statements_mdes_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
+$statements_mdes_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
 
 // array data sent to template
 $data = [
   'statements_dex' => "'$statements_dex'",
   'statements_mdes' => "'$statements_mdes'",
   'statements_mtes' => "'$statements_mtes'",
+
   'statements_dex_first3' => $statements_dex_first3,
   'statements_dex_last3' => $statements_dex_last3,
+  'statements_mtes_first3' => $statements_mtes_first3,
+  'statements_mtes_last3' => $statements_mtes_last3,
+  'statements_mdes_first3' => $statements_mdes_first3,
+  'statements_mdes_last3' => $statements_mdes_last3,
+
   'dex_normalized_avg' => implode(', ', $dex_normalized_avg),
   'mdes_normalized_avg' => implode(', ', $mdes_normalized_avg),
   'mtes_normalized_avg' => implode(', ', $mtes_normalized_avg),

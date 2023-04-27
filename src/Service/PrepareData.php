@@ -161,11 +161,11 @@ class PrepareData
         return $rows;
     }
 
-    public static function metrics($courseid = 0, $statementid = 0, $orderby = 'dex_normalized'){
+    public static function statementUsers($courseid = 0, $statementid = 0, $orderby = 'dex_normalized'){
         global $DB;
         
         $query = "SELECT userid,
-                         numberofsubmissions,
+                         submissionsbyuser,
                          dex_normalized,
                          mdes_normalized,
                          mtes_normalized

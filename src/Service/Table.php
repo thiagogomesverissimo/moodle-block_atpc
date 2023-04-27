@@ -135,9 +135,9 @@ class Table
         return \html_writer::table($table);
     }
 
-    public static function statementAnalysis($statementid){
+    public static function statementUsers($statementid){
 
-        $metrics = PrepareData::metrics($courseid = 0, $statementid);
+        $metrics = PrepareData::statementUsers($courseid = 0, $statementid);
 
         //echo "<pre>"; var_dump($metrics); die();
 
@@ -161,7 +161,7 @@ class Table
                 $user = $DB->get_record('user', ['id' => $metric['userid']]);
 
                 $metric['userid'] = $user->id .' - '. $user->firstname .' '. $user->lastname;
-                $metric['numberofsubmissions'] = $metric['numberofsubmissions'];
+                $metric['submissionsbyuser'] = $metric['submissionsbyuser'];
 
                 $metric['dex_normalized'] = number_format($metric['dex_normalized'], 2, '.', '');
                 $metric['mdes_normalized'] = number_format($metric['mdes_normalized'], 2, '.', '');

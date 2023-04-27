@@ -1,61 +1,70 @@
-<div class="card mb-3" style="border-left: 6px solid #ffc200; ">
-
-<div class="card-header"><b>Suggestions for teachers</b></div>
-
-  <div class="card-body">
-    <h6 class="card-subtitle mb-2 text-muted">3 exercises more difficulty (DEX)</h6>
-    <ul class="fa-ul">
-        {{#statements_dex_first3}}
-          <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text"> {{{.}}} </p></li>
-        {{/statements_dex_first3}}
-    </ul>
-
-    <h6 class="card-subtitle mb-2 text-muted">3 exercises more easy</h6>
-    <ul class="fa-ul">
-        {{#statements_dex_last3}}
-          <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text"> {{{.}}} </p></li>
-        {{/statements_dex_last3}}
-    </ul>
-  </div>
-
-  <div class="card-body">
-    <h6 class="card-subtitle mb-2 text-muted">3 exercises with syntax problem (MDES)</h6>
-    <ul class="fa-ul">
-        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
-        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
-    </ul>
-    <h6 class="card-subtitle mb-2 text-muted">3 exercises with no syntax problem</h6>
-    <ul class="fa-ul">
-        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
-        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
-    </ul>
-  </div>
-
-  <div class="card-body">
-    <h6 class="card-subtitle mb-2 text-muted">3 exercises that require some attention regarding their description and complexity (MTES)</h6>
-    <ul class="fa-ul">
-        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
-        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
-    </ul>
-    <h6 class="card-subtitle mb-2 text-muted">3 exercises that not require some attention regarding their description and complexity</h6>
-    <ul class="fa-ul">
-        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
-        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
-    </ul>
-  </div>
-
-</div>
-</div>
-
-<div id="dexgraph" style=""></div>
-<div id="mdesgraph" style=""></div>
-<div id="mtesgraph" style=""></div>
-
 Select a course:
 
 {{{ form }}}
-{{{ table }}}
 
+<br>
+<div class="card mb-3" style="border-left: 6px solid #ffc200; ">
+
+  <div class="card-header"><b>Suggestions for teachers</b></div>
+
+    <div class="card-body">
+      <h6 class="card-subtitle mb-2 text-muted">Exercises more easy, from an specialist point of view</h6>
+      <ul class="fa-ul">
+          {{#statements_dex_first3}}
+            <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text"> {{{.}}} </p></li>
+          {{/statements_dex_first3}}
+      </ul>
+
+      <h6 class="card-subtitle mb-2 text-muted">Exercises more difficulty</h6>
+      <ul class="fa-ul">
+          {{#statements_dex_last3}}
+            <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text"> {{{.}}} </p></li>
+          {{/statements_dex_last3}}
+      </ul>
+    </div>
+    <hr>
+    <div class="card-body">
+      <h6 class="card-subtitle mb-2 text-muted">Exercises that require some attention regarding their description</h6>
+      <ul class="fa-ul">
+          {{#statements_mtes_first3}}
+            <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text"> {{{.}}} </p></li>
+          {{/statements_mtes_first3}}
+      </ul>
+
+      <h6 class="card-subtitle mb-2 text-muted">Exercises with understandable description</h6>
+      <ul class="fa-ul">
+          {{#statements_mtes_last3}}
+            <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text"> {{{.}}} </p></li>
+          {{/statements_mtes_last3}}
+      </ul>
+    </div>
+    <hr>
+    <div class="card-body">
+      <h6 class="card-subtitle mb-2 text-muted">Wrong assumptions about the proposed exercise</h6>
+
+      <ul class="fa-ul">
+          {{#statements_mdes_first3}}
+            <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text"> {{{.}}} </p></li>
+          {{/statements_mdes_first3}}
+      </ul>
+
+      <h6 class="card-subtitle mb-2 text-muted">No problem with assumptions about the proposed exercise</h6>
+      <ul class="fa-ul">
+          {{#statements_mdes_last3}}
+            <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text"> {{{.}}} </p></li>
+          {{/statements_mdes_last3}}
+      </ul>
+    </div>
+
+  </div>
+
+</div>
+
+<div id="dexgraph" style=""></div><br><br>
+<div id="mtesgraph" style=""></div><br><br>
+<div id="mdesgraph" style=""></div><br>
+
+{{{ table }}}
 
 <div class="card">
   <div class="card-header">
@@ -91,7 +100,7 @@ Select a course:
   ];
 
   var layout = {
-    title: 'Exercícios dificeis',
+    title: 'Exercise difficulty (left are more easy than the ones to the right)',
     showlegend: false,
 
     xaxis: {
@@ -99,7 +108,7 @@ Select a course:
     },
 
     yaxis: {
-      title: 'DEX',
+      title: 'Difficulty level',
       zeroline: false,
       gridwidth: 2
     },
@@ -107,6 +116,35 @@ Select a course:
   };
 
   Grafico = document.getElementById('dexgraph');
+  Plotly.newPlot(Grafico, data, layout);
+
+  // Gráfico do MTES
+  var data = [
+    {
+      x: [ {{{ statements_mtes }}} ],
+      y: [ {{ mtes_normalized_avg }} ],
+      //text: [ {{{ statements }}} ],
+      type: 'bar'
+    }
+  ];
+
+  var layout = {
+    title: 'Exercises that require some attention regarding their description (left are less understandable than the ones to the right)',
+    showlegend: false,
+
+    xaxis: {
+      tickangle: -45
+    },
+
+    yaxis: {
+      title: 'understanding level',
+      zeroline: false,
+      gridwidth: 2
+    },
+    bargap :0.05
+  };
+
+  Grafico = document.getElementById('mtesgraph');
   Plotly.newPlot(Grafico, data, layout);
 
   // Gráfico do MDES
@@ -120,7 +158,7 @@ Select a course:
   ];
 
   var layout = {
-    title: 'mdes_normalized_avg',
+    title: 'Wrong assumptions about the proposed exercise',
     showlegend: false,
 
     xaxis: {
@@ -136,35 +174,6 @@ Select a course:
   };
 
   Grafico = document.getElementById('mdesgraph');
-  Plotly.newPlot(Grafico, data, layout);
-
-  // Gráfico do MTES
-  var data = [
-    {
-      x: [ {{{ statements_mtes }}} ],
-      y: [ {{ mtes_normalized_avg }} ],
-      //text: [ {{{ statements }}} ],
-      type: 'bar'
-    }
-  ];
-
-  var layout = {
-    title: 'mtes_normalized_avg',
-    showlegend: false,
-
-    xaxis: {
-      tickangle: -45
-    },
-
-    yaxis: {
-      title: 'mtes',
-      zeroline: false,
-      gridwidth: 2
-    },
-    bargap :0.05
-  };
-
-  Grafico = document.getElementById('mtesgraph');
   Plotly.newPlot(Grafico, data, layout);
 
 </script>
