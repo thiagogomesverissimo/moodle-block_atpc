@@ -50,6 +50,8 @@ $statements = array_map(
 );
 $statements_dex = implode("', '", $statements);
 $dex_normalized_avg = array_column($metrics,'dex_normalized_avg');
+$statements_dex_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
+$statements_dex_last3 = count($statements) > 6 ? array_slice($statements,-3): ['','',''];
 
 // statements from Database to MDES
 $metrics = PrepareData::courseMetrics($course, 0, 'mdes_normalized_avg');
@@ -82,6 +84,8 @@ $data = [
   'statements_dex' => "'$statements_dex'",
   'statements_mdes' => "'$statements_mdes'",
   'statements_mtes' => "'$statements_mtes'",
+  'statements_dex_first3' => $statements_dex_first3,
+  'statements_dex_last3' => $statements_dex_last3,
   'dex_normalized_avg' => implode(', ', $dex_normalized_avg),
   'mdes_normalized_avg' => implode(', ', $mdes_normalized_avg),
   'mtes_normalized_avg' => implode(', ', $mtes_normalized_avg),

@@ -165,14 +165,14 @@ class PrepareData
         global $DB;
         
         $query = "SELECT userid,
-                         numberofsubmissions
+                         numberofsubmissions,
+                         dex_normalized,
+                         mdes_normalized,
+                         mtes_normalized
       /*                   numberofusers,
                          avgsubmissionsbyuser,
                          median,
-                         max, 
-                         dex_normalized,
-                         mdes_normalized,
-                         mtes_normalized*/
+                         max*/
                     FROM {block_itpc_statement_metrics} ";
 
         if( $courseid != 0 and $statementid != 0 ) {

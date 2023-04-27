@@ -38,15 +38,15 @@ class Table
 
         $metrics_table = array_map(
             function($metric) {
-                $url1 = new \moodle_url('/blocks/itpc/pages/statement.php', [
+                $submissions_url = new \moodle_url('/blocks/itpc/pages/submissions.php', [
                     'statementid' => $metric['statementid'],
                 ]);
     
-                $url2 = new \moodle_url('/blocks/itpc/pages/statement_analysis.php', [
+                $users_url = new \moodle_url('/blocks/itpc/pages/users.php', [
                     'statementid' => $metric['statementid'],
                 ]);
 
-                $metric['statementid'] = "{$metric['statementid']} <a href='{$url1}'>Analysis 1</a> <br> <a href='{$url2}'>Analysis 2</a>";
+                $metric['statementid'] = "{$metric['statementid']}<br><a href='{$submissions_url}'>Submissions Analysis</a> <br> <a href='{$users_url}'>Users Analysis</a>";
 
                 $metric['avgsubmissionsbyuser'] = number_format($metric['avgsubmissionsbyuser'], 2, '.', '');
                 $metric['median'] = number_format($metric['median'], 2, '.', '');
@@ -150,9 +150,9 @@ class Table
            // 'Média de submissões por usuários',
            // 'Mediana',
            // 'Máximo de submissões por um único usuário',
-           // 'DEX médio',
-           // 'MDES médio',
-           // 'MTES Médio'
+            'DEX',
+            'MDES',
+            'MTES'
         ];
 
         $metrics_table = array_map(
@@ -162,6 +162,11 @@ class Table
 
                 $metric['userid'] = $user->id .' - '. $user->firstname .' '. $user->lastname;
                 $metric['numberofsubmissions'] = $metric['numberofsubmissions'];
+
+                $metric['dex_normalized'] = number_format($metric['dex_normalized'], 2, '.', '');
+                $metric['mdes_normalized'] = number_format($metric['mdes_normalized'], 2, '.', '');
+                $metric['mtes_normalized'] = number_format($metric['mtes_normalized'], 2, '.', '');
+
                 //$metric['avgsubmissionsbyuser'] = number_format($metric['avgsubmissionsbyuser'], 2, '.', '');
                 //$metric['median'] = number_format($metric['median'], 2, '.', '');
                 //$metric['dex_normalized_avg'] = number_format($metric['dex_normalized_avg'], 2, '.', '');

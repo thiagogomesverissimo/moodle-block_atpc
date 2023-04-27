@@ -1,13 +1,50 @@
-<div>
-  <p>Quantidade de tarefas moodle com Itarefas: {{number_of_tasks}}</p>
-</div>
+<div class="card mb-3" style="border-left: 6px solid #ffc200; ">
 
-<div>
-  <p>Quantidade de exerícicios do Itarefas: {{number_of_statements}} </p>
-</div>
+<div class="card-header"><b>Suggestions for teachers</b></div>
 
-<div>
-  <p>Quantidade de exerícicios do Itarefas com submissões: {{statements_with_submissions_total}} </p>
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">3 exercises more difficulty (DEX)</h6>
+    <ul class="fa-ul">
+        {{#statements_dex_first3}}
+          <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text"> {{{.}}} </p></li>
+        {{/statements_dex_first3}}
+    </ul>
+
+    <h6 class="card-subtitle mb-2 text-muted">3 exercises more easy</h6>
+    <ul class="fa-ul">
+        {{#statements_dex_last3}}
+          <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text"> {{{.}}} </p></li>
+        {{/statements_dex_last3}}
+    </ul>
+  </div>
+
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">3 exercises with syntax problem (MDES)</h6>
+    <ul class="fa-ul">
+        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
+        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
+    </ul>
+    <h6 class="card-subtitle mb-2 text-muted">3 exercises with no syntax problem</h6>
+    <ul class="fa-ul">
+        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
+        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
+    </ul>
+  </div>
+
+  <div class="card-body">
+    <h6 class="card-subtitle mb-2 text-muted">3 exercises that require some attention regarding their description and complexity (MTES)</h6>
+    <ul class="fa-ul">
+        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
+        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
+    </ul>
+    <h6 class="card-subtitle mb-2 text-muted">3 exercises that not require some attention regarding their description and complexity</h6>
+    <ul class="fa-ul">
+        <li><span class="fa-li"><i class="fa fa-ambulance"></i></span><p class="card-text">Wearable smart band</p></li>
+        <li><span class="fa-li"><i class="fa fa-address-card-o"></i></span><p class="card-text">control smartphone with simple hand gesture</p></li>
+    </ul>
+  </div>
+
+</div>
 </div>
 
 <div id="dexgraph" style=""></div>
@@ -18,6 +55,26 @@ Select a course:
 
 {{{ form }}}
 {{{ table }}}
+
+
+<div class="card">
+  <div class="card-header">
+    Some Data
+  </div>
+  <div class="card-body">
+      <div>
+        <p>Quantidade de tarefas moodle com Itarefas: {{number_of_tasks}}</p>
+      </div>
+
+      <div>
+        <p>Quantidade de exerícicios do Itarefas: {{number_of_statements}} </p>
+      </div>
+
+      <div>
+        <p>Quantidade de exerícicios do Itarefas com submissões: {{statements_with_submissions_total}} </p>
+      </div>
+  </div>
+</div>
 
 <script src="https://cdn.plot.ly/plotly-2.16.4.min.js"></script>
 

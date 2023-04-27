@@ -24,7 +24,7 @@ use block_itpc\Service\PrepareData;
 $statementid = required_param('statementid', PARAM_INT);
 
 // Metadata for moodle page
-$url = new moodle_url("/blocks/itpc/pages/statement_analysis.php");
+$url = new moodle_url("/blocks/itpc/pages/users.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $page_title = 'Statement '. $statementid; // TODO: internationalization
@@ -36,5 +36,5 @@ $data = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_itpc/statement_analysis', $data);
+echo $OUTPUT->render_from_template('block_itpc/users', $data);
 echo $OUTPUT->footer();
