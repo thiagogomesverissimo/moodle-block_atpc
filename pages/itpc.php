@@ -50,6 +50,18 @@ $statements = array_map(
 );
 $statements_dex = implode("', '", $statements);
 $dex_normalized_avg = array_column($metrics,'dex_normalized_avg');
+
+$statements = array_map(
+  function($statementid) {
+    $obj = new StdClass();
+    $obj->statementid = $statementid;
+    $obj->name = Iassign::getStatementName($statementid);
+    $obj->course = Iassign::getStatementCourse($statementid);
+    $obj->proposition = Iassign::getStatementProposition($statementid);
+    return $obj;
+  },$statementsid
+);
+
 $statements_dex_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
 $statements_dex_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
 
@@ -65,6 +77,16 @@ $statements = array_map(
 );
 $statements_mtes = implode("', '", $statements);
 $mtes_normalized_avg = array_column($metrics,'mtes_normalized_avg');
+$statements = array_map(
+  function($statementid) {
+    $obj = new StdClass();
+    $obj->statementid = $statementid;
+    $obj->name = Iassign::getStatementName($statementid);
+    $obj->course = Iassign::getStatementCourse($statementid);
+    $obj->proposition = Iassign::getStatementProposition($statementid);
+    return $obj;
+  },$statementsid
+);
 $statements_mtes_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
 $statements_mtes_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
 
@@ -80,6 +102,16 @@ $statements = array_map(
 );
 $statements_mdes = implode("', '", $statements);
 $mdes_normalized_avg = array_column($metrics,'mdes_normalized_avg');
+$statements = array_map(
+  function($statementid) {
+    $obj = new StdClass();
+    $obj->statementid = $statementid;
+    $obj->name = Iassign::getStatementName($statementid);
+    $obj->course = Iassign::getStatementCourse($statementid);
+    $obj->proposition = Iassign::getStatementProposition($statementid);
+    return $obj;
+  },$statementsid
+);
 $statements_mdes_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
 $statements_mdes_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
 

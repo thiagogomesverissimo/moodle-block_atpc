@@ -107,6 +107,18 @@ class Iassign
                     WHERE id = {$id}";
         $result = $DB->get_record_sql($query);
         if($result) return $result->name;
+        return '';
+    }
+
+    public static function getStatementProposition($id){
+        global $DB;
+
+        $query = "SELECT proposition
+                    FROM {iassign_statement}
+                    WHERE id = {$id}";
+        $result = $DB->get_record_sql($query);
+        if($result) return $result->proposition;
+        return '';
     }
 
     public static function getStatementCourse($id){
