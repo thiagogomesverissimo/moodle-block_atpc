@@ -1,13 +1,13 @@
 <?php
 
-namespace block_itpc\Form;
+namespace block_peta\Form;
 
 //require_once($CFG->libdir . "/formslib.php");
 
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Iassign.php');
-use block_itpc\Service\Iassign;
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Iassign.php');
+use block_peta\Service\Iassign;
 
-class ItpcForm extends \moodleform {
+class PetaForm extends \moodleform {
 
     public function definition() {
 

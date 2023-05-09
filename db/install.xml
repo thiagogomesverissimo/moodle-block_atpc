@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/itpc/db" VERSION="20230208" COMMENT="XMLDB file for Moodle blocks/itpc"
+<XMLDB PATH="blocks/peta/db" VERSION="20230208" COMMENT="XMLDB file for Moodle blocks/peta"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
 
-    <TABLE NAME="block_itpc_statement_metrics" COMMENT="table to store metrics for statements">
+    <TABLE NAME="block_peta_statement_metrics" COMMENT="table to store metrics for statements">
       <FIELDS>
         <FIELD NAME="courseid" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="statementid" TYPE="int" LENGTH="16" NOTNULL="true" SEQUENCE="false" />

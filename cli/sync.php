@@ -5,14 +5,14 @@ require(__DIR__.'/../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // plugin classes
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Iassign.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Utils.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Table.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/PrepareData.php');
-use block_itpc\Service\Iassign;
-use block_itpc\Service\Utils;
-use block_itpc\Service\Table;
-use block_itpc\Service\PrepareData;
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/PrepareData.php');
+use block_peta\Service\Iassign;
+use block_peta\Service\Utils;
+use block_peta\Service\Table;
+use block_peta\Service\PrepareData;
 
 global $DB;
 
@@ -65,8 +65,8 @@ foreach($courses as $course=>$courseinfo){
             $metrics
         );
 
-        $DB->delete_records('block_itpc_statement_metrics',[ 'statementid' => $statement->id, 'courseid' => $course ]);
-        $DB->insert_records('block_itpc_statement_metrics', $metrics_as_objects);
+        $DB->delete_records('block_peta_statement_metrics',[ 'statementid' => $statement->id, 'courseid' => $course ]);
+        $DB->insert_records('block_peta_statement_metrics', $metrics_as_objects);
     }
 }
 

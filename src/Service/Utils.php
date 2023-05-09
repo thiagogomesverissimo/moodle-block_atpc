@@ -1,6 +1,6 @@
 <?php
 
-namespace block_itpc\Service;
+namespace block_peta\Service;
 
 require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();

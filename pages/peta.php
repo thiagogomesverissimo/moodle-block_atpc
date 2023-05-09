@@ -6,19 +6,19 @@ defined('MOODLE_INTERNAL') || die();
 require_login();
 
 // plugin classes
-require_once($CFG->dirroot . '/blocks/itpc/src/Form/ItpcForm.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Iassign.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Utils.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Table.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/PrepareData.php');
-use block_itpc\Form\ItpcForm;
-use block_itpc\Service\Iassign;
-use block_itpc\Service\Utils;
-use block_itpc\Service\Table;
-use block_itpc\Service\PrepareData;
+require_once($CFG->dirroot . '/blocks/peta/src/Form/PetaForm.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/PrepareData.php');
+use block_peta\Form\PetaForm;
+use block_peta\Service\Iassign;
+use block_peta\Service\Utils;
+use block_peta\Service\Table;
+use block_peta\Service\PrepareData;
 
 // Metadata for moodle page
-$url = new moodle_url("/blocks/itpc/pages/itpc.php");
+$url = new moodle_url("/blocks/peta/pages/peta.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
@@ -27,7 +27,7 @@ $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
 // form 
-$form = new ItpcForm();
+$form = new PetaForm();
 
 // data from form
 $request = $form->get_data();
@@ -140,5 +140,5 @@ $data = [
 
 // rendering template
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_itpc/itpc', $data);
+echo $OUTPUT->render_from_template('block_peta/peta', $data);
 echo $OUTPUT->footer();

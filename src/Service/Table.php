@@ -1,17 +1,17 @@
 <?php
 
-namespace block_itpc\Service;
+namespace block_peta\Service;
 
 require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '/blocks/itpc/vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/peta/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
-use block_itpc\Service\Utils;
+use block_peta\Service\Utils;
 
 class Table
 {
@@ -38,11 +38,11 @@ class Table
 
         $metrics_table = array_map(
             function($metric) {
-                $submissions_url = new \moodle_url('/blocks/itpc/pages/submissions.php', [
+                $submissions_url = new \moodle_url('/blocks/peta/pages/submissions.php', [
                     'statementid' => $metric['statementid'],
                 ]);
     
-                $users_url = new \moodle_url('/blocks/itpc/pages/users.php', [
+                $users_url = new \moodle_url('/blocks/peta/pages/users.php', [
                     'statementid' => $metric['statementid'],
                 ]);
 

@@ -6,25 +6,25 @@ defined('MOODLE_INTERNAL') || die();
 require_login();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '/blocks/itpc/vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/peta/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 
 // plugin classes
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Iassign.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Utils.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/Table.php');
-require_once($CFG->dirroot . '/blocks/itpc/src/Service/PrepareData.php');
-use block_itpc\Service\Iassign;
-use block_itpc\Service\Utils;
-use block_itpc\Service\Table;
-use block_itpc\Service\PrepareData;
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Iassign.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Utils.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/Table.php');
+require_once($CFG->dirroot . '/blocks/peta/src/Service/PrepareData.php');
+use block_peta\Service\Iassign;
+use block_peta\Service\Utils;
+use block_peta\Service\Table;
+use block_peta\Service\PrepareData;
 
 // required params from request
 $userid = required_param('userid', PARAM_INT);
 
 // Metadata for moodle page
-$url = new moodle_url("/blocks/itpc/pages/user.php");
+$url = new moodle_url("/blocks/peta/pages/user.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $page_title = Iassign::getUserName($userid);
@@ -54,5 +54,5 @@ $data = [
 ];
 
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('block_itpc/user', $data);
+echo $OUTPUT->render_from_template('block_peta/user', $data);
 echo $OUTPUT->footer();

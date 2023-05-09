@@ -1,13 +1,13 @@
 <?php
 
-namespace block_itpc\Service;
+namespace block_peta\Service;
 
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/formslib.php');
 require_once($CFG->dirroot.'/course/lib.php');
 
-use block_itpc\Service\Utils;
+use block_peta\Service\Utils;
 
 class Iassign
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace block_itpc\Service;
+namespace block_peta\Service;
 
 require_once('../../../config.php');
 defined('MOODLE_INTERNAL') || die();
 
 // loading external libraries installed inside of the plugin with composer
-require_once($CFG->dirroot . '/blocks/itpc/vendor/autoload.php');
+require_once($CFG->dirroot . '/blocks/peta/vendor/autoload.php');
 use Phpml\Regression\LeastSquares;
 use Carbon\Carbon;
 
-use block_itpc\Service\Utils;
+use block_peta\Service\Utils;
 
 class PrepareData
 {
@@ -21,7 +21,7 @@ class PrepareData
         $rows = [];
         foreach($users as $userid){
 
-            $url = new \moodle_url('/blocks/itpc/pages/user.php', [
+            $url = new \moodle_url('/blocks/peta/pages/user.php', [
                 'userid' => $userid,
             ]);
 
@@ -173,7 +173,7 @@ class PrepareData
                          avgsubmissionsbyuser,
                          median,
                          max*/
-                    FROM {block_itpc_statement_metrics} ";
+                    FROM {block_peta_statement_metrics} ";
 
         if( $courseid != 0 and $statementid != 0 ) {
             $query .= " WHERE courseid = {$courseid} AND statementid = {$statementid} ";
@@ -204,7 +204,7 @@ class PrepareData
                     AVG(dex_normalized) AS dex_normalized_avg,
                     AVG(mdes_normalized) AS mdes_normalized_avg,
                     AVG(mtes_normalized) AS mtes_normalized_avg
-                    FROM {block_itpc_statement_metrics} ";
+                    FROM {block_peta_statement_metrics} ";
 
         if( $courseid != 0 and $statementid != 0 ) {
             
