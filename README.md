@@ -1,4 +1,4 @@
-Plugin moodle: Programming Exercises Teaching Assistant - peta
+Plugin moodle: Programming Exercise Teaching Assistant - peta
 
 MAC5857 - Desenvolvimento de Sistemas Web para Apoio ao Ensino/Aprendizagem
 
