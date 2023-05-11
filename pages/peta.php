@@ -22,7 +22,7 @@ $url = new moodle_url("/blocks/peta/pages/peta.php");
 $PAGE->set_url($url);
 $PAGE->set_context(context_system::instance());
 $PAGE->set_pagelayout('admin');
-$page_title = 'Intelligent tutor'; // TODO: internationalization
+$page_title = get_string('pluginname','block_peta');
 $PAGE->set_title($page_title);
 $PAGE->set_heading($page_title);
 
@@ -58,6 +58,7 @@ $statements = array_map(
     $obj->name = Iassign::getStatementName($statementid);
     $obj->course = Iassign::getStatementCourse($statementid);
     $obj->proposition = Iassign::getStatementProposition($statementid);
+    //$obj->value = 
     return $obj;
   },$statementsid
 );

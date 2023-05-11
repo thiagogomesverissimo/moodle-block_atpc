@@ -102,10 +102,13 @@ class PrepareData
     }
 
     public static function statementAnalysis($statementid){
+        // Lembre da Normalização: (valor-min)/(max-min)
+       
+
         $users = Iassign::usersFromStatement($statementid);
 
         $data = self::statement($statementid);
-        
+
         $rows = [];
         foreach($users as $userid){
 
@@ -126,14 +129,15 @@ class PrepareData
             $grade_average = array_sum($grades)/$n;
 
             $times = array_column($lines,'timecreated');
-            $tms = (max($times) - min($times))/2;
 
             $rows[] = [
-                'userid'        => $userid,
-                'mtes'          => max(array_column($lines,'difftime')),  // Highest TES
-                'mdes'          => max(array_column($lines,'diffanswer')),  // Highest DES
-                'dex'           => $grade_average/($tms+$n)
+                'userid' => $userid,
+                'mtes'   => max(array_column($lines,'difftime')),  // Highest TES
+                'mdes'   => max(array_column($lines,'diffanswer')),  // Highest DES
+                'tms'    => (max($times) - min($times))/2  
+                //'dex'           => $grade_average/($tms+$n)
             ];
+            
         }
 
         // inserting more data on rows[]
@@ -148,16 +152,24 @@ class PrepareData
         $mdes_min = min($mdes);
         $mdes_diff = max($mdes) - min($mdes);
 
+        // get min and max for n
+        var_dump(count($rows)); echo "$statementid"; die();
+        //$dex_min = min($dex);
+        //$dex_diff = max($dex) - min($dex);
+
         // get min and max for dex
-        $dex = array_column($rows,'dex');
-        $dex_min = min($dex);
-        $dex_diff = max($dex) - min($dex);
+        //$dex = array_column($rows,'dex');
+        //$dex_min = min($dex);
+        //$dex_diff = max($dex) - min($dex);
 
         foreach($rows as $key=>$row){
             $rows[$key]['mtes_normalized'] = $mtes_diff==0 ? 0: ($row['mtes'] - $mtes_min)/$mtes_diff;
             $rows[$key]['mdes_normalized'] = $mdes_diff==0 ? 0: ($row['mdes'] - $mdes_min)/$mdes_diff;
-            $rows[$key]['dex_normalized']  = $dex_diff ==0 ? 0: ($row['dex'] - $dex_min)/$dex_diff;
+            $rows[$key]['n_normalized']  = $dex_diff ==0 ? 0: ($row['dex'] - $dex_min)/$dex_diff;
+            $rows[$key]['tms_normalized']  = $dex_diff ==0 ? 0: ($row['dex'] - $dex_min)/$dex_diff;
+            //$rows[$key]['dex_normalized']  = $dex_diff ==0 ? 0: ($row['dex'] - $dex_min)/$dex_diff;
         }
+        //'dex'           => $grade_average/($tms+$n)
         return $rows;
     }
 
