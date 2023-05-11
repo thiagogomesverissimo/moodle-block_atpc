@@ -58,7 +58,7 @@ $statements = array_map(
     $obj->name = Iassign::getStatementName($statementid);
     $obj->course = Iassign::getStatementCourse($statementid);
     $obj->proposition = Iassign::getStatementProposition($statementid);
-    //$obj->value = 
+    $obj->value = number_format(PrepareData::get_dex_avg_normalized($statementid), 2, '.', ''); 
     return $obj;
   },$statementsid
 );
@@ -85,6 +85,7 @@ $statements = array_map(
     $obj->name = Iassign::getStatementName($statementid);
     $obj->course = Iassign::getStatementCourse($statementid);
     $obj->proposition = Iassign::getStatementProposition($statementid);
+    $obj->value = number_format(PrepareData::get_mtes_avg_normalized($statementid), 2, '.', ''); 
     return $obj;
   },$statementsid
 );
@@ -110,6 +111,7 @@ $statements = array_map(
     $obj->name = Iassign::getStatementName($statementid);
     $obj->course = Iassign::getStatementCourse($statementid);
     $obj->proposition = Iassign::getStatementProposition($statementid);
+    $obj->value = number_format(PrepareData::get_mdes_avg_normalized($statementid), 2, '.', ''); 
     return $obj;
   },$statementsid
 );

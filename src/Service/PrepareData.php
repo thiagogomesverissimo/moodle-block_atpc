@@ -231,6 +231,42 @@ class PrepareData
         return json_decode($results, true);
     }
 
+    public static function get_dex_avg_normalized($statementid){
+        global $DB;
+        
+        $query = "SELECT AVG(dex_normalized) AS dex_normalized_avg
+                    FROM {block_peta_statement_metrics}
+                    WHERE statementid = {$statementid}
+                    GROUP BY statementid ";
+
+        $result = $DB->get_record_sql($query);
+        return $result->dex_normalized_avg;
+    }
+
+    public static function get_mdes_avg_normalized($statementid){
+        global $DB;
+        
+        $query = "SELECT AVG(mdes_normalized) AS mdes_normalized_avg
+                    FROM {block_peta_statement_metrics}
+                    WHERE statementid = {$statementid}
+                    GROUP BY statementid ";
+
+        $result = $DB->get_record_sql($query);
+        return $result->mdes_normalized_avg;
+    }
+
+    public static function get_mtes_avg_normalized($statementid){
+        global $DB;
+        
+        $query = "SELECT AVG(mtes_normalized) AS mtes_normalized_avg
+                    FROM {block_peta_statement_metrics}
+                    WHERE statementid = {$statementid}
+                    GROUP BY statementid ";
+
+        $result = $DB->get_record_sql($query);
+        return $result->mtes_normalized_avg;
+    }
+
     public static function user($userid){
 
         $statements = Iassign::statementsFromUser($userid);
