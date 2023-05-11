@@ -57,9 +57,14 @@ foreach($courses as $course=>$courseinfo){
                 $obj->mtes = $metric['mtes'];
                 $obj->mdes = $metric['mdes'];
                 $obj->dex  = $metric['dex'];
+                $obj->tms  = $metric['tms'];
+                $obj->n  = $metric['n'];
                 $obj->mtes_normalized = $metric['mtes_normalized'];
                 $obj->mdes_normalized = $metric['mdes_normalized'];
                 $obj->dex_normalized  = $metric['dex_normalized'];
+                $obj->tms_normalized  = $metric['tms_normalized'];
+                $obj->n_normalized  = $metric['n_normalized'];
+                $obj->grade_average  = $metric['grade_average'];
                 return $obj;
             }, 
             $metrics

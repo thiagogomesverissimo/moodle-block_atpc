@@ -20,7 +20,14 @@
         <FIELD NAME="avgsubmissionsbyuser" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="submissionsbyuser" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="median" TYPE="float" NOTNULL="true" SEQUENCE="false" />     
-        
+
+        <FIELD NAME="grade_average" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="tms" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="n" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+
+        <FIELD NAME="tms_normalized" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+        <FIELD NAME="n_normalized" TYPE="float" NOTNULL="true" SEQUENCE="false" />
+
         <FIELD NAME="mtes" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="mdes" TYPE="float" NOTNULL="true" SEQUENCE="false" />
         <FIELD NAME="dex" TYPE="float" NOTNULL="true" SEQUENCE="false" />

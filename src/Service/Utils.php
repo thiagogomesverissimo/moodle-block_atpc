@@ -34,4 +34,13 @@ class Utils
         }
         return $result;
     }  
+
+    /*
+     * Lembre da Normalização: (valor-min)/(max-min)
+     */
+    public static function normalize($item, $array){
+        $diff = max($array) - min($array);
+        if($diff == 0) return 0;
+        return ($item - min($array))/$diff;
+    }
 }
