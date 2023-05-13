@@ -6,7 +6,7 @@ Select a course:
 
 <div class="card mb-3" id="accordion" style="border-left: 6px solid #ffc200; ">
 
-  <div class="card-header"><b>Suggestions for teachers</b></div>
+  <div class="card-header"><b>Metrics</b></div>
   <div class="card-body">
     {{> block_peta/partials/dex }}
     <hr>
@@ -57,7 +57,7 @@ Select a course:
   ];
 
   var layout = {
-    title: 'Exercise difficulty (left are more easy than the ones to the right)',
+    title: 'Average grades, penalized by time and by code changes (AG)',
     showlegend: false,
 
     xaxis: {
@@ -86,7 +86,7 @@ Select a course:
   ];
 
   var layout = {
-    title: 'Exercises that require some attention regarding their description (left are less understandable than the ones to the right)',
+    title: 'Highest time between submissions (HT)',
     showlegend: false,
 
     xaxis: {
@@ -115,7 +115,7 @@ Select a course:
   ];
 
   var layout = {
-    title: 'Wrong assumptions about the proposed exercise',
+    title: 'Highest code changing between submissions (HC)',
     showlegend: false,
 
     xaxis: {

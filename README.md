@@ -68,30 +68,7 @@ Usar como referência - o Lucas fez uma iterativo e está no github
 - Subir essa aplicação, que tb analisa os dados do ivprog - http://200.144.254.107/git/LInE/ivprog_log_analysis
 
 
-arrumar submissões únicas para serem consideradas na análise
-
-Alinhar a direita na tabela
-$table->align = array('left','right','right'); // (n. de colunas)
-
-
-grade com casa decimal
-
-plugin moodle para baixar todos questinãrios de um curso
-
-arrumar sequencia dos statements
-
-deixar genérico para qualquer outro plugin, exemplo vpl
-
-barbara - 9749 - aluno boa
-jailson - 9769 - good
-jose ailton - 9772 - good
-pedro custodio - 9789 - good
-
-larissa - 9778 - bad
-demerval - 9757 - bad
-
-
-módulo da diferença 
+    UPDATE s_iassign_statement SET name='Total of days' where id=5751;
 
 
 
