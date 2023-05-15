@@ -69,6 +69,45 @@ Usar como referência - o Lucas fez uma iterativo e está no github
 
 
     UPDATE s_iassign_statement SET name='Total of days' where id=5751;
+    UPDATE s_iassign_statement SET name='Print the greatest number among two integers' where id=5653;
+    UPDATE s_iassign_statement SET name='Weighted average' where id=5754;
+    UPDATE s_iassign_statement SET name='Predecessor and successor' where id=5748;
+    UPDATE s_iassign_statement SET name='Average consumption' where id=5746;
+    UPDATE s_iassign_statement SET name='Invert a 3-digit integer' where id=5651;
+    UPDATE s_iassign_statement SET name='Array - Sum of x and y positions' where id=5658;
+    UPDATE s_iassign_statement SET name='Value swap' where id=5747;
+    UPDATE s_iassign_statement SET name='Determine whether 2 numbers are equal or different' where id=5652;
+    UPDATE s_iassign_statement SET name='Introduction - Read an integer and print it' where id=5649;
+    UPDATE s_iassign_statement SET name='Even or odd' where id=5759;
+    UPDATE s_iassign_statement SET name='Loop - Sum of odd numbers (until 0 is entered)' where id=5657;
+    UPDATE s_iassign_statement SET name='Payroll' where id=5750;
+    UPDATE s_iassign_statement SET name='' where id=;
+
+    UPDATE s_course SET shortname='2021_summer',fullname='Introduction to programming (daytime)' where id=472;
+    UPDATE s_course SET shortname='2021_summer',fullname='Introduction to programming (nighttime)' where id=475;
+    UPDATE s_course SET shortname='2022_summer',fullname='Introduction to programming (daytime)' where id=486;
+    UPDATE s_course SET shortname='2022_summer',fullname='Introduction to programming (nighttime)' where id=487;
+    UPDATE s_course SET shortname='2023_summer',fullname='Introduction to programming (daytime)' where id=492;
+    UPDATE s_course SET shortname='2023_summer',fullname='Introduction to programming (nighttime)' where id=493;
+    UPDATE s_course SET shortname='2021_mac118',fullname='Introduction to programming' where id=484;
+    UPDATE s_course SET shortname='2022_mac110',fullname='Introduction to programming' where id=489;
+   
+Quantidade de exercícios por curso
+
+   select courseid, count(*) from (select courseid, count(distinct statementid) from s_block_peta_statement_metrics group by
+ statementid) as d group by courseid;
+
+Quantidade de submissões:
+
+ |      472 |             445 |
+|      475 |             656 |
+|      484 |             409 |
+|      486 |             379 |
+|      487 |             302 |
+|      489 |             414 |
+|      492 |             320 |
+|      493 |             522 |
+
 
 
 

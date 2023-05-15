@@ -23,17 +23,17 @@ class Table
         $table = new \html_table();
 
         $table->head = [ 
-            'Statement id',
-            'Enunciado',
+            '',
+            'statement',
             'course id',
-            'Quantidade de submissões',
-            'Quantidade de usuários',
-            'Média de submissões por usuários',
-            'Mediana',
-            'Máximo de submissões por um único usuário',
-            'DEX médio',
-            'MDES médio',
-            'MTES Médio'
+            'submissions',
+            'users',
+            'average submissions per user',
+            'median',
+            'maximum number of submissions by a single user',
+            'AG',
+            'HC',
+            'HT'
         ];
 
         $metrics_table = array_map(
@@ -126,6 +126,7 @@ class Table
         if(empty($data_filtered)){
             $table->head = $columns;
         } else {
+            var_dump($data_filtered[0]); die();
             $table->head = array_keys($data_filtered[0]);
         }
         
