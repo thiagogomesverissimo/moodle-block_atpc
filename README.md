@@ -92,21 +92,74 @@ Usar como referência - o Lucas fez uma iterativo e está no github
     UPDATE s_course SET shortname='2021_mac118',fullname='Introduction to programming' where id=484;
     UPDATE s_course SET shortname='2022_mac110',fullname='Introduction to programming' where id=489;
    
-Quantidade de exercícios por curso
+## Quantidade de exercícios por curso
 
-   select courseid, count(*) from (select courseid, count(distinct statementid) from s_block_peta_statement_metrics group by
- statementid) as d group by courseid;
+    select courseid, count(*) as exercises from (select courseid, count(distinct statementid) from s_block_peta_statement_metrics group by statementid) as d group by courseid order by courseid;
 
-Quantidade de submissões:
+    +----------+-----------+
+    | courseid | exercises |
+    +----------+-----------+
+    |      472 |        21 |
+    |      475 |        20 |
+    |      484 |        26 |
+    |      486 |        21 |
+    |      487 |        12 |
+    |      489 |        36 |
+    |      492 |        21 |
+    |      493 |        25 |
+    +----------+-----------+
 
- |      472 |             445 |
-|      475 |             656 |
-|      484 |             409 |
-|      486 |             379 |
-|      487 |             302 |
-|      489 |             414 |
-|      492 |             320 |
-|      493 |             522 |
+
+## Quantidade de submissões:
+
+    select courseid, count(*) as submissions from s_block_peta_statement_metrics group by courseid order by courseid;
+
+    +----------+-------------+
+    | courseid | submissions |
+    +----------+-------------+
+    |      472 |         445 |
+    |      475 |         656 |
+    |      484 |         409 |
+    |      486 |         379 |
+    |      487 |         302 |
+    |      489 |         414 |
+    |      492 |         320 |
+    |      493 |         522 |
+    +----------+-------------+
+
+
+## Quantidade de usuários por curso
+
+    select courseid, count(*) as users from (select courseid, count(distinct userid) from s_block_peta_statement_metrics group by userid)  as d group by courseid order by courseid;
+
+    +----------+-------+
+    | courseid | users |
+    +----------+-------+
+    |      472 |    33 |
+    |      475 |    51 |
+    |      484 |    40 |
+    |      486 |    32 |
+    |      487 |    38 |
+    |      489 |    27 |
+    |      492 |    25 |
+    |      493 |    41 |
+    +----------+-------+
+
+## final table
+
+    +----------+-----------+-------+-------------+
+    | courseid | exercises | users | submissions |
+    +----------+-----------+-------+-------------+
+    |      472 |        21 |    33 |         445 |
+    |      475 |        20 |    51 |         656 |
+    |      484 |        26 |    40 |         409 |
+    |      486 |        21 |    32 |         379 |
+    |      487 |        12 |    38 |         302 |
+    |      489 |        36 |    27 |         414 |
+    |      492 |        21 |    25 |         320 |
+    |      493 |        25 |    41 |         522 |
+    +----------+-----------+-------+-------------+
+
 
 
 
