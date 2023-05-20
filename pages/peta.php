@@ -65,6 +65,7 @@ $statements = array_map(
 
 $statements_dex_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
 $statements_dex_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
+$statements_dex_last3 = array_reverse($statements_dex_last3);
 
 // statements from Database to MTES
 $metrics = PrepareData::courseMetrics($course, 0, 'mtes_normalized_avg');
@@ -91,6 +92,7 @@ $statements = array_map(
 );
 $statements_mtes_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
 $statements_mtes_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
+$statements_mtes_last3 = array_reverse($statements_mtes_last3);
 
 // statements from Database to MDES
 $metrics = PrepareData::courseMetrics($course, 0, 'mdes_normalized_avg');
@@ -117,6 +119,7 @@ $statements = array_map(
 );
 $statements_mdes_first3 = count($statements) > 6 ? array_slice($statements,0,3): ['','',''];
 $statements_mdes_last3 = count($statements) > 6 ? array_reverse(array_slice($statements,-3)): ['','',''];
+$statements_mdes_last3 = array_reverse($statements_mdes_last3);
 
 // array data sent to template
 $data = [
